@@ -1,0 +1,7 @@
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: DEBUG # incoming HTTP request
+
+
+google:
+  map-key: AIzaSyC2CxkBl9JyAPvO0lAKDrvBHw4oURSCXFI
