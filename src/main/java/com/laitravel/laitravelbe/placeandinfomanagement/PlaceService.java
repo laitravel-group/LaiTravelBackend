@@ -24,8 +24,8 @@ public class PlaceService {
     }
 
 
-    public List<PlacesSearchResult> placeSearch(String place,String startDate,String endDate){
-        String city = String.format("famous travel spots in %s county",place);
+    public List<PlacesSearchResult> placeSearch(String pla,String startDate,String endDate){
+        String city = String.format("famous travel spots in %s county",pla);
         String pattern = "MM-dd-yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate date1 = LocalDate.parse(startDate, formatter);
@@ -40,21 +40,22 @@ public class PlaceService {
                 .rankby(RankBy.DISTANCE);
         try {
             PlacesSearchResult[] places = request.await().results;
-            Arrays.sort(places, Comparator.comparingDouble(place -> place.rating).reversed());
+            Arrays.sort(places, Comparator.comparing(place -> getRating((PlacesSearchResult) place)).reversed());
 
             return List.of(places);
 
-            List<String> placeIds = new ArrayList<>();
-            for(PlacesSearchResult p:places) {
-                placeIds.add(p.placeId);
-            }
-            List<PlaceDetails> results = getPlaceDetails(placeIds);
-
+//            List<String> placeIds = new ArrayList<>();
+//            for(PlacesSearchResult p:places) {
+//                placeIds.add(p.placeId);
+//            }
+//            List<PlaceDetails> results = getPlaceDetails(placeIds);
+//
         } catch (ApiException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
 
     }
+
     float getRating(PlacesSearchResult place) {
         return place.rating;
     }
@@ -126,11 +127,11 @@ public class PlaceService {
 
 
 
-    }
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
