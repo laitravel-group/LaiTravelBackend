@@ -25,21 +25,19 @@ public class PlaceService {
 
 
     public List<PlacesSearchResult> placeSearch(String pla,String startDate,String endDate){
-        String city = String.format("famous travel spots in %s county",pla);
-        String pattern = "MM-dd-yyyy";
+        String cityInfo = String.format("famous travel spots in %s county", pla);
+        String pattern = "MM/dd/yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate date1 = LocalDate.parse(startDate, formatter);
         LocalDate date2 = LocalDate.parse(endDate, formatter);
         DayOfWeek start = date1.getDayOfWeek();
         DayOfWeek end = date2.getDayOfWeek();
 
+        TextSearchRequest request =  PlacesApi.textSearchQuery(context,cityInfo);
 
-        TextSearchRequest request = new TextSearchRequest(context)
-                .query(city)
-                .radius(241402)
-                .rankby(RankBy.DISTANCE);
         try {
-            PlacesSearchResult[] places = request.await().results;
+            PlacesSearchResponse response = request.await();
+            PlacesSearchResult[] places = response.results;
             Arrays.sort(places, Comparator.comparing(place -> getRating((PlacesSearchResult) place)).reversed());
 
             return List.of(places);
@@ -56,9 +54,6 @@ public class PlaceService {
 
     }
 
-    float getRating(PlacesSearchResult place) {
-        return place.rating;
-    }
 
     public List<PlaceDetails> getPlaceDetails (List<String> placeIds) {
         List<PlaceDetails> result = new ArrayList<>();
@@ -125,6 +120,9 @@ public class PlaceService {
 
 
 
+    float getRating(PlacesSearchResult place) {
+        return place.rating;
+    }
 
 
 }

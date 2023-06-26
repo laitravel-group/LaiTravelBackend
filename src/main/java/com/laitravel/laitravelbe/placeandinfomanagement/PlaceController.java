@@ -15,7 +15,7 @@ public class PlaceController {
     }
 
     @GetMapping("/getPlaces")
-    public List<PlacesSearchResult> getPlaces(@RequestParam(value="city")String city, @RequestParam(value="start") String startDate, @RequestParam(value="end") String endDate) {
+    public List<PlacesSearchResult> getPlaces(@RequestParam(value="city") String city, @RequestParam(value="start") String startDate, @RequestParam(value="end") String endDate) {
         List<PlacesSearchResult> results = placeService.placeSearch(city,startDate,endDate);
         return results;
 
