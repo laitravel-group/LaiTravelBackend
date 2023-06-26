@@ -7,8 +7,8 @@ import java.util.List;
 public record Place(
         @JsonProperty("place_id") String placeId,
         @JsonProperty("place_name") String placeName,
-        Float lat,
-        Float lgt,
+        Double lat,
+        Double lgt,
         String photo,
         List<String> types,
         String address,

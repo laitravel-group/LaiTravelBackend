@@ -1,6 +1,7 @@
 package com.laitravel.laitravelbe.placeandinfomanagement;
 
 import com.google.maps.model.PlacesSearchResult;
+import com.laitravel.laitravelbe.model.Place;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,8 @@ public class PlaceController {
     }
 
     @GetMapping("/getPlaces")
-    public List<PlacesSearchResult> getPlaces(@RequestParam(value="city") String city, @RequestParam(value="start") String startDate, @RequestParam(value="end") String endDate) {
-        List<PlacesSearchResult> results = placeService.placeSearch(city,startDate,endDate);
+    public List<Place> getPlaces(@RequestParam(value="city") String city, @RequestParam(value="start") String startDate, @RequestParam(value="end") String endDate) {
+        List<Place>results = placeService.placeSearch(city,startDate,endDate);
         return results;
 
     }
