@@ -46,7 +46,7 @@ public class PlaceService {
                 break;
             }
         }
-        
+
         TextSearchRequest request =  PlacesApi.textSearchQuery(context,cityInfo);
 
         try {

@@ -14,6 +14,6 @@ public record Place(
         String address,
         String description,
         @JsonProperty("opening_hours") List<OpeningHours> openingHours,
-        @JsonProperty("rating") float rating
+        @JsonProperty("rating") Float rating
 ) {
 }
