@@ -83,7 +83,7 @@ public class PlaceService {
                 }
                 List<com.laitravel.laitravelbe.model.OpeningHours> openingHours = null;
                 for(OpeningHours.Period oneOperiod : periods) {
-                    com.laitravel.laitravelbe.model.OpeningHours open = new com.laitravel.laitravelbe.model.OpeningHours(oneOperiod.open.day.getName(), Time.valueOf(oneOperiod.open.time),Time.valueOf(oneOperiod.close.time));
+                    com.laitravel.laitravelbe.model.OpeningHours open = new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time),Time.valueOf(oneOperiod.close.time));
                     openingHours.add(open);
                 }
                 Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,summary,openingHours);
