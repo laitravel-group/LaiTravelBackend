@@ -18,6 +18,7 @@ public class PlaceController {
     @GetMapping("/getPlaces")
     public List<Place> getPlaces(@RequestParam(value="city") String city, @RequestParam(value="start") String startDate, @RequestParam(value="end") String endDate) {
         List<Place>results = placeService.placeSearch(city,startDate,endDate);
+        System.out.println(results.size());
         return results;
 
     }

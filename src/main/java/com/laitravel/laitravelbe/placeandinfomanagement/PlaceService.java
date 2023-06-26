@@ -80,7 +80,7 @@ public class PlaceService {
                 if(re.editorialSummary != null) {
                     description = re.editorialSummary.overview;
                 }
-
+// assign openingHours to periods
                 OpeningHours oH = re.currentOpeningHours;
                 OpeningHours.Period[] periods = null;
                 if(oH != null) {
