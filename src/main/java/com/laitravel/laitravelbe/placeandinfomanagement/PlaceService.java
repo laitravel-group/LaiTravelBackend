@@ -72,16 +72,16 @@ public class PlaceService {
 
             for(PlacesSearchResult p:places) {
                 placeIds.add(p.placeId);
-                PlaceDetails re = PlacesApi.placeDetails(context,p.placeId)
+                PlaceDetails pl = PlacesApi.placeDetails(context,p.placeId)
                         .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY)
                         .await();
 //   assign overview to description
                 String description = null;
-                if(re.editorialSummary != null) {
-                    description = re.editorialSummary.overview;
+                if(pl.editorialSummary != null) {
+                    description = pl.editorialSummary.overview;
                 }
 // assign openingHours to periods
-                OpeningHours oH = re.currentOpeningHours;
+                OpeningHours oH = pl.openingHours;
                 OpeningHours.Period[] periods = null;
                 if(oH != null) {
                     periods = oH.periods;
@@ -89,16 +89,18 @@ public class PlaceService {
                 if(isValidDate(dayOfWeekList,periods) == false) {
                     continue;
                 }
-                List<com.laitravel.laitravelbe.model.OpeningHours> openingHours = null;
+                List<com.laitravel.laitravelbe.model.OpeningHours> open = new ArrayList<>();
 
                 if(periods != null) {
                    for(OpeningHours.Period oneOperiod : periods) {
-                     com.laitravel.laitravelbe.model.OpeningHours open = new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time), Time.valueOf(oneOperiod.close.time));
-                     openingHours.add(open);
+                       if(oneOperiod.open == null || oneOperiod.close == null) {
+                           break;
+                       }
+                       open.add(new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time), Time.valueOf(oneOperiod.close.time)));
                    }
                 }
 
-                Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,description,openingHours);
+                Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,description,open,p.rating);
                 resultPlaces.add(resultplace);
             }
 

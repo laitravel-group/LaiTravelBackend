@@ -13,6 +13,7 @@ public record Place(
         List<String> types,
         String address,
         String description,
-        @JsonProperty("opening_hours") List<OpeningHours> openingHours
+        @JsonProperty("opening_hours") List<OpeningHours> openingHours,
+        @JsonProperty("rating") float rating
 ) {
 }
