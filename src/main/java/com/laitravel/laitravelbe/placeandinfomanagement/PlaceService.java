@@ -46,10 +46,7 @@ public class PlaceService {
                 break;
             }
         }
-
-
-
-
+        
         TextSearchRequest request =  PlacesApi.textSearchQuery(context,cityInfo);
 
         try {
@@ -60,15 +57,11 @@ public class PlaceService {
 
             Arrays.sort(places, Comparator.comparing(place -> getRating((PlacesSearchResult) place)).reversed());
 
-
-
 //  maybe we can use this placeIds to get place info from our database
             List<String> placeIds = new ArrayList<>();
 
-
 // return list of Places
             List<Place> resultPlaces = new ArrayList<>();
-
 
             for(PlacesSearchResult p:places) {
                 placeIds.add(p.placeId);
@@ -99,16 +92,12 @@ public class PlaceService {
                        open.add(new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time), Time.valueOf(oneOperiod.close.time)));
                    }
                 }
-
                 Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,description,open,p.rating);
                 resultPlaces.add(resultplace);
             }
 
-
             return resultPlaces;
 
-//
-//
         } catch (ApiException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
