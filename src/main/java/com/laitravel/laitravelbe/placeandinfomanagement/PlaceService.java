@@ -60,9 +60,7 @@ public class PlaceService {
 
             Arrays.sort(places, Comparator.comparing(place -> getRating((PlacesSearchResult) place)).reversed());
 
-// customize place detail request
-            PlaceDetailsRequest detailsRequest = new PlaceDetailsRequest(context)
-                    .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY);
+
 
 //  maybe we can use this placeIds to get place info from our database
             List<String> placeIds = new ArrayList<>();
@@ -74,19 +72,33 @@ public class PlaceService {
 
             for(PlacesSearchResult p:places) {
                 placeIds.add(p.placeId);
-                PlaceDetailsRequest detailsRequest1 = detailsRequest.placeId(p.placeId);
-                PlaceDetails result = detailsRequest1.await();
-                OpeningHours.Period[] periods = result.openingHours.periods;
-                String summary = result.editorialSummary.overview;
+                PlaceDetails re = PlacesApi.placeDetails(context,p.placeId)
+                        .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY)
+                        .await();
+//   assign overview to description
+                String description = null;
+                if(re.editorialSummary != null) {
+                    description = re.editorialSummary.overview;
+                }
+
+                OpeningHours oH = re.currentOpeningHours;
+                OpeningHours.Period[] periods = null;
+                if(oH != null) {
+                    periods = oH.periods;
+                }
                 if(isValidDate(dayOfWeekList,periods) == false) {
                     continue;
                 }
                 List<com.laitravel.laitravelbe.model.OpeningHours> openingHours = null;
-                for(OpeningHours.Period oneOperiod : periods) {
-                    com.laitravel.laitravelbe.model.OpeningHours open = new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time),Time.valueOf(oneOperiod.close.time));
-                    openingHours.add(open);
+
+                if(periods != null) {
+                   for(OpeningHours.Period oneOperiod : periods) {
+                     com.laitravel.laitravelbe.model.OpeningHours open = new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time), Time.valueOf(oneOperiod.close.time));
+                     openingHours.add(open);
+                   }
                 }
-                Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,summary,openingHours);
+
+                Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,description,openingHours);
                 resultPlaces.add(resultplace);
             }
 
@@ -168,6 +180,9 @@ public class PlaceService {
 
     boolean isValidDate(List<String> dayOfWeekList,OpeningHours.Period[] periods ) {
         boolean result = false;
+        if(periods == null) {
+            return true;
+        }
         for(String day : dayOfWeekList) {
             boolean found = false;
             for(OpeningHours.Period oneOperiod : periods) {
