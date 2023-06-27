@@ -71,11 +71,7 @@ PRIMARY KEY (`PlaceID`),
 FOREIGN KEY (CityID) REFERENCES City(CityID)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO User (UserID, Password, DisplayName, Avatar) values ('zorainus@gmail.com', '123456', 'Ran Zhang', 'http:XXXX');
-INSERT INTO City (CityID, CityName) values ('placeId', 'Boston');
-INSERT INTO Trip (OwnerID, CityID, StartDate, EndDate, Details) value ('zorainus@gmail.com', 'placeId', '2023-06-23 07:30:00', '2023-07-01 ', 'xxxxxxxxx');
-INSERT INTO Place (PlaceID, Name, LAT, LGT, Photo, Type, FormattedAddress, Description, CityID, OpenningHours) values ('123', 'MIT', 65.007, 352.005, 'xxxxxxx', 'School', '77 Massachusetts Ave, Cambridge, MA 02139, USA', 'xx', 'placeId', 'xx');
-UPDATE Place SET Description = 'newXXXXXXXXX' WHERE PlaceID = '123';
+
 
 
 
