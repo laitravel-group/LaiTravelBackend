@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PlaceController {
@@ -22,6 +23,10 @@ public class PlaceController {
         System.out.println(results.size());
         return results;
 
+    }
+    @GetMapping("/test")
+    public Map<Place, Map<Place,Integer>> test() {
+        return placeService.getDistances();
     }
 
 

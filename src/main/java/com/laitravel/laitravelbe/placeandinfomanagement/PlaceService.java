@@ -154,42 +154,96 @@ public class PlaceService {
     }
 
 
-    public Map<Place,Map<Place,Integer>> getDistances(Place origin, List<Place> destinations) {
+    public Map<Place,Map<Place,Integer>> getDistances() { //Place origin, List<Place> destinations
         Map<Place,Map<Place,Integer>> answer = new HashMap<>();
-        Map<Place,Integer> adj = new HashMap<>();
+        HashSet<Place> set = new HashSet<>();
+//        destinations.add(0,origin);
+        Place o = new Place(
+                "ChIJXXW3blGVwoARUNBeGc6VDtM",
+                "0",
+                34.0473723,
+                -118.2518857,
+                "",
+                null,
+                null,
+                null,
+                null,
+                4.9F);
+        Place des1 = new Place(
+                "ChIJXzARBf3HwoARJyT7uZSV-G4",
+                "1",
+                34.0171448,
+                -118.2886635,
+                "",
+                null,
+                null,
+                null,
+                null,
+                4.8F);
+        Place des2 = new Place(
+                "ChIJtS6SWkm-woARMMlLlRSNrOU",
+                "2",
+                34.1387901,
+                -118.3527069,
+                "",
+                null,
+                null,
+                null,
+                null,
+                4.7F);
+
+        List<Place> l = List.of(o,des1,des2);
 
 
-        LatLng oriLocation = new LatLng(origin.lat(), origin.lgt());
-        List<LatLng> desLocations = new ArrayList<>();
-        for(Place place:destinations) {
-            LatLng des = new LatLng(place.lat(), place.lgt());
-            desLocations.add(des);
-        }
-
-        DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context)
-                .origins(oriLocation)
-                .destinations(desLocations.toArray(new LatLng[desLocations.size()]));
-        try {
-            DistanceMatrixRow[] result = request.await().rows;
-            if(result.length == 0) return null;
-            DistanceMatrixElement[] elements = result[0].elements;
-            for(int i = 0; i < elements.length; i++) {
-                Integer minutes = 60;
-                if(elements[i].duration != null) {
-                    minutes = (int) Math.ceil(elements[i].duration.inSeconds/60.0);
-                }
-                adj.put(destinations.get(i), minutes);
+        for(int i=0; i < l.size();i++) {   //destinations.size()
+            List<Place> newList = new ArrayList<>();
+            for(int j=0; j < l.size();j++) {  //destinations.size()
+                if(i == j) continue;
+                if(set.contains(l.get(j))) continue;
+                newList.add(l.get(j));   //destinations.get(j)
             }
-            answer.put(origin,adj);
-            return answer;
-        } catch (ApiException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            Place start = l.get(i);  //destinations.get(i)
+            Map<Place,Integer> adj = getMap(start,newList,set);
+            answer.put(start,adj);
+            set.add(start);
         }
+        return answer;
     }
+
+    Map<Place,Integer> getMap(Place origin,List<Place> destinations,HashSet<Place> set) {
+        Map<Place,Integer> adj = new HashMap<>();
+        LatLng startLocation = new LatLng(origin.lat(), origin.lgt());
+        for(Place place:destinations) {
+            if(set.contains(place)) continue;
+            LatLng desLocation = new LatLng(place.lat(), place.lgt());
+            DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context)
+                    .origins(startLocation)
+                    .destinations(desLocation);
+            try {
+                DistanceMatrixRow[] result = request.await().rows;
+                if(result.length == 0) return null;
+                DistanceMatrixElement[] elements = result[0].elements;
+                Integer minutes = 60;
+                    if(elements[0].duration != null) {
+                        minutes = (int) Math.ceil(elements[0].duration.inSeconds/60.0);
+                    }
+                    adj.put(place, minutes);
+            } catch (ApiException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return adj;
+
+
+
+
+
+    }
+
 
 
     boolean isValidDate(List<String> dayOfWeekList,OpeningHours.Period[] periods ) {
