@@ -1,5 +1,6 @@
 package com.laitravel.laitravelbe.placeandinfomanagement;
 
+import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.PlacesSearchResult;
 import com.laitravel.laitravelbe.model.Place;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,6 @@ public class PlaceController {
         return results;
 
     }
-
 
 
 }

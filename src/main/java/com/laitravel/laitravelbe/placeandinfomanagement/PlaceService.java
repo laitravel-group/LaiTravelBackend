@@ -153,12 +153,35 @@ public class PlaceService {
         }
     }
 
-    public DistanceMatrix getDistance(String[] origin, String[] dest) {
 
-        DistanceMatrixApiRequest request = DistanceMatrixApi.getDistanceMatrix(context,origin,dest);
+    public Map<Place,Map<Place,Integer>> getDistances(Place origin, List<Place> destinations) {
+        Map<Place,Map<Place,Integer>> answer = new HashMap<>();
+        Map<Place,Integer> adj = new HashMap<>();
+
+
+        LatLng oriLocation = new LatLng(origin.lat(), origin.lgt());
+        List<LatLng> desLocations = new ArrayList<>();
+        for(Place place:destinations) {
+            LatLng des = new LatLng(place.lat(), place.lgt());
+            desLocations.add(des);
+        }
+
+        DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context)
+                .origins(oriLocation)
+                .destinations(desLocations.toArray(new LatLng[desLocations.size()]));
         try {
-            DistanceMatrix result = request.await();
-            return result;
+            DistanceMatrixRow[] result = request.await().rows;
+            if(result.length == 0) return null;
+            DistanceMatrixElement[] elements = result[0].elements;
+            for(int i = 0; i < elements.length; i++) {
+                Integer minutes = 60;
+                if(elements[i].duration != null) {
+                    minutes = (int) Math.ceil(elements[i].duration.inSeconds/60.0);
+                }
+                adj.put(destinations.get(i), minutes);
+            }
+            answer.put(origin,adj);
+            return answer;
         } catch (ApiException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
