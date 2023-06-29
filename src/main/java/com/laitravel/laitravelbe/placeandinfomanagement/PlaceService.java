@@ -30,7 +30,7 @@ public class PlaceService {
 
 
     public List<Place> placeSearch(String pla,String startDate,String endDate){
-        String cityInfo = String.format("famous travel spots in %s county", pla);
+        String cityInfo = String.format("famous travel spots in %s county and vicinity", pla);
         String pattern = "MM/dd/yyyy";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         LocalDate startDay = LocalDate.parse(startDate, formatter);
@@ -132,7 +132,7 @@ public class PlaceService {
             throw new RuntimeException(e);
         }
     }
-    public GeocodingResult[] geoSearchPlaceID(String PlaceID) {
+    public GeocodingResult[] geoSearchByPlaceID(String PlaceID) {
         GeocodingApiRequest request = GeocodingApi.newRequest(context)
                 .place(PlaceID);
         try {
@@ -199,22 +199,21 @@ public class PlaceService {
             List<Place> newList = new ArrayList<>();
             for(int j=0; j < l.size();j++) {  //destinations.size()
                 if(i == j) continue;
-                if(set.contains(l.get(j))) continue;
+                //if(set.contains(l.get(j))) continue;
                 newList.add(l.get(j));   //destinations.get(j)
             }
             Place start = l.get(i);  //destinations.get(i)
-            Map<Place,Integer> adj = getMap(start,newList,set);
+            Map<Place,Integer> adj = getMap(start,newList);
             answer.put(start,adj);
             set.add(start);
         }
         return answer;
     }
 
-    Map<Place,Integer> getMap(Place origin,List<Place> destinations,HashSet<Place> set) {
+    Map<Place,Integer> getMap(Place origin,List<Place> destinations) {
         Map<Place,Integer> adj = new HashMap<>();
         LatLng startLocation = new LatLng(origin.lat(), origin.lgt());
         for(Place place:destinations) {
-            if(set.contains(place)) continue;
             LatLng desLocation = new LatLng(place.lat(), place.lgt());
             DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context)
                     .origins(startLocation)
