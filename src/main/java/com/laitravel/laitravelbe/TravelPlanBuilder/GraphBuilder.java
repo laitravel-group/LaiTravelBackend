@@ -1,8 +1,8 @@
-package com.example.laitravel0626.TravelPlanBuilder;
+package com.laitravel.laitravelbe.TravelPlanBuilder;
 
-import com.example.laitravel0626.OpeningHours;
-import com.example.laitravel0626.Place;
-import com.example.laitravel0626.PlaceVisitDetails;
+import com.laitravel.laitravelbe.model.OpeningHours;
+import com.laitravel.laitravelbe.model.Place;
+import com.laitravel.laitravelbe.model.PlaceVisitDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;

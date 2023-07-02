@@ -1,4 +1,4 @@
-package com.example.laitravel0626.TravelPlanBuilder;
+package com.laitravel.laitravelbe.TravelPlanBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

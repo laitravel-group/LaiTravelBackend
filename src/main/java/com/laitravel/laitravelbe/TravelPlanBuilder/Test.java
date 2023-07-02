@@ -1,7 +1,8 @@
-package com.example.laitravel0626.TravelPlanBuilder;
+package com.laitravel.laitravelbe.TravelPlanBuilder;
 
-import com.example.laitravel0626.OpeningHours;
-import com.example.laitravel0626.Place;
+import com.google.maps.model.OpeningHours;
+import com.laitravel.laitravelbe.model.OpeningHours;
+import com.laitravel.laitravelbe.model.Place;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -70,7 +71,7 @@ public class Test {
 
         plan.graphBuilder();
 
-        TravelPlanService path1 = new TravelPlanService(plan);
+        com.example.laitravel0626.TravelPlanBuilder.TravelPlanService path1 = new com.example.laitravel0626.TravelPlanBuilder.TravelPlanService(plan);
         System.out.println("shortest path:");
         String dateTime = "2023-06-26";
         Time startTime = Time.valueOf("6:00:00");
