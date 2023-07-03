@@ -9,42 +9,19 @@ import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class GraphBuilder {
+public class PlaceGraphBuilderService {
 
-    public List<Place> places = new ArrayList<>();
-    public List<Map<Place, Integer>> maps = new ArrayList<>();
     public Map<Place, Map<Place, Integer>> adjacentNodes =  new HashMap<>();
     public Map<Place, PlaceVisitDetails> placeDetails = new HashMap<>();
-
-    public void addPlace(Place place, Map<Place, Integer> neighborMap){
-        places.add(place);
-        maps.add(neighborMap);
-    }
-
-    public void graphBuilder (){
-        for (int i = 0; i < places.size(); i++){
-            Place place= places.get(i);
-            Map<Place, Integer> neighborMap = maps.get(i);
-            adjacentNodes.put(place, neighborMap);
-        }
-    }
 
     public void buildPlaceVisitDetails(Place place, Integer stayDuration){
         PlaceVisitDetails placeVisitDetails = new PlaceVisitDetails(place, 0, null, null, stayDuration);
         placeDetails.put(place, placeVisitDetails);
-    }
-
-    public void setDefault(Map<Place, PlaceVisitDetails> placeDetails) {
-        for (PlaceVisitDetails placeVisitDetail : placeDetails.values()) {
-            placeVisitDetail.isVisited = false;
-            placeVisitDetail.travelTime = Integer.MAX_VALUE;
-        }
     }
 
     int timeToMinutes(Time time) {
@@ -73,9 +50,9 @@ public class GraphBuilder {
         return openingHours.closeTime();
     }
 
-    boolean travelInOpenTime(GraphBuilder graph, PlaceVisitDetails placeDetails, int startTimeInMinutes, String dateTime) {
-        int openingTime = graph.timeToMinutes(graph.getOpenTime(placeDetails.place, dateTime));
-        int closingTime = graph.timeToMinutes(graph.getCloseTimeTime(placeDetails.place,dateTime));
+    boolean travelInOpenTime(PlaceVisitDetails placeDetails, int startTimeInMinutes, String dateTime) {
+        int openingTime = timeToMinutes(getOpenTime(placeDetails.place, dateTime));
+        int closingTime = timeToMinutes(getCloseTimeTime(placeDetails.place,dateTime));
         int endTimeInMinutes = startTimeInMinutes + placeDetails.stayDuration;
 
         return startTimeInMinutes >= openingTime && endTimeInMinutes <= closingTime;
