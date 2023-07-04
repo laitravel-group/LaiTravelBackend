@@ -71,7 +71,7 @@ public class PlaceService {
             for(PlacesSearchResult p:places) {
 //   we should use this placeIds to get detail info from our database
 //                if(db.contains(p.placeId)) {
-//                   Place dbPlace = db.get(p.placeID;
+//                   Place dbPlace = db.get(p.placeID）;
 //                   resultPlaces.add(dbPlace);
 //                     continue;
 //                }
