@@ -5,3 +5,9 @@ logging:
 
 google:
   map-key: AIzaSyC2CxkBl9JyAPvO0lAKDrvBHw4oURSCXFI
+
+
+GCS:
+  project-id: hidden-cosmos-385921
+  bucket-name: laitravel-bucket
+

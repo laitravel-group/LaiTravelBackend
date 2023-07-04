@@ -16,12 +16,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+
 	implementation 'com.google.maps:google-maps-services:2.2.0'
+	implementation platform('com.google.cloud:libraries-bom:26.18.0')
+	implementation 'com.google.cloud:google-cloud-storage'
 
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

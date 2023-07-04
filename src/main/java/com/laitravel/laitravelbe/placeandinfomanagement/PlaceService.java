@@ -4,7 +4,9 @@ package com.laitravel.laitravelbe.placeandinfomanagement;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
+import com.laitravel.laitravelbe.gcs.GCSService;
 import com.laitravel.laitravelbe.model.Place;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -23,9 +25,14 @@ import java.util.*;
 @Service
 public class PlaceService {
     final GeoApiContext context;
+    final GCSService gcsService;
 
-    public PlaceService(GeoApiContext context) {
+    final String bucketName;
+
+    public PlaceService(GeoApiContext context, GCSService gcsService,@Value("${GCS.bucket-name}") String bucketName) {
        this.context = context;
+       this.gcsService = gcsService;
+       this.bucketName = bucketName;
     }
 
 
@@ -57,17 +64,24 @@ public class PlaceService {
 
             Arrays.sort(places, Comparator.comparing(place -> getRating((PlacesSearchResult) place)).reversed());
 
-//  maybe we can use this placeIds to get place info from our database
-            List<String> placeIds = new ArrayList<>();
 
 // return list of Places
             List<Place> resultPlaces = new ArrayList<>();
 
             for(PlacesSearchResult p:places) {
-                placeIds.add(p.placeId);
+//   we should use this placeIds to get detail info from our database
+//                if(db.contains(p.placeId)) {
+//                   Place dbPlace = db.get(p.placeID;
+//                   resultPlaces.add(dbPlace);
+//                     continue;
+//                }
                 PlaceDetails pl = PlacesApi.placeDetails(context,p.placeId)
-                        .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY)
+                        .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY,PlaceDetailsRequest.FieldMask.PHOTOS)
                         .await();
+
+                byte[] photo = getPhoto(pl);
+                String mediaLink = gcsService.uploadImage(bucketName,p.placeId, photo);
+
 //   assign overview to description
                 String description = null;
                 if(pl.editorialSummary != null) {
@@ -92,7 +106,8 @@ public class PlaceService {
                        open.add(new com.laitravel.laitravelbe.model.OpeningHours(DayOfWeek.valueOf(oneOperiod.open.day.name()), Time.valueOf(oneOperiod.open.time), Time.valueOf(oneOperiod.close.time)));
                    }
                 }
-                Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,"",List.of(p.types),p.formattedAddress,description,open,p.rating);
+
+                Place resultplace = new Place(p.placeId,p.name,p.geometry.location.lat,p.geometry.location.lng,mediaLink,List.of(p.types),p.formattedAddress,description,open,p.rating);
                 resultPlaces.add(resultplace);
             }
 
@@ -105,24 +120,8 @@ public class PlaceService {
     }
 
 
-    public List<PlaceDetails> getPlaceDetails (List<String> placeIds) {
-        List<PlaceDetails> result = new ArrayList<>();
-        for(String placeId : placeIds) {
-            PlaceDetailsRequest request = PlacesApi.placeDetails(context, placeId);
-            try {
-                PlaceDetails requestResult = request.await();
-                result.add(requestResult);
 
-            } catch (ApiException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return result;
-    }
+
     public GeocodingResult[] geoSearch(String address) {
         GeocodingApiRequest request = GeocodingApi.geocode(context,address);
         try {
@@ -143,6 +142,19 @@ public class PlaceService {
         }
     }
 
+    public byte[] getPhoto (PlaceDetails place) {
+        if(place == null) return null;
+        Photo[] photos = place.photos;
+        if (photos.length <1) {
+            return null;
+        }
+        String photoReference = photos[0].photoReference;
+        byte[] photo = getImageByText(photoReference);
+
+        return photo;
+    }
+
+
     public byte[] getImageByText(String photoReference) {
         PhotoRequest request = new PhotoRequest(context);
         try {
@@ -154,58 +166,20 @@ public class PlaceService {
     }
 
 
-    public Map<Place,Map<Place,Integer>> getDistances() { //Place origin, List<Place> destinations
+    public Map<Place,Map<Place,Integer>> getDistances(Place origin, List<Place> destinations) {
         Map<Place,Map<Place,Integer>> answer = new HashMap<>();
-        HashSet<Place> set = new HashSet<>();
-//        destinations.add(0,origin);
-        Place o = new Place(
-                "ChIJXXW3blGVwoARUNBeGc6VDtM",
-                "0",
-                34.0473723,
-                -118.2518857,
-                "",
-                null,
-                null,
-                null,
-                null,
-                4.9F);
-        Place des1 = new Place(
-                "ChIJXzARBf3HwoARJyT7uZSV-G4",
-                "1",
-                34.0171448,
-                -118.2886635,
-                "",
-                null,
-                null,
-                null,
-                null,
-                4.8F);
-        Place des2 = new Place(
-                "ChIJtS6SWkm-woARMMlLlRSNrOU",
-                "2",
-                34.1387901,
-                -118.3527069,
-                "",
-                null,
-                null,
-                null,
-                null,
-                4.7F);
 
-        List<Place> l = List.of(o,des1,des2);
+        destinations.add(0,origin);
 
-
-        for(int i=0; i < l.size();i++) {   //destinations.size()
+        for(int i=0; i < destinations.size();i++) {
             List<Place> newList = new ArrayList<>();
-            for(int j=0; j < l.size();j++) {  //destinations.size()
+            for(int j=0; j < destinations.size();j++) {  //destinations.size()
                 if(i == j) continue;
-                //if(set.contains(l.get(j))) continue;
-                newList.add(l.get(j));   //destinations.get(j)
+                newList.add(destinations.get(j));
             }
-            Place start = l.get(i);  //destinations.get(i)
+            Place start = destinations.get(i);
             Map<Place,Integer> adj = getMap(start,newList);
             answer.put(start,adj);
-            set.add(start);
         }
         return answer;
     }
