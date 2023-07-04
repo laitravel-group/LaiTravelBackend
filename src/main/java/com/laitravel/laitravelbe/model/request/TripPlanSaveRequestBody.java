@@ -12,5 +12,5 @@ public record TripPlanSaveRequestBody(
         @JsonProperty("end_datetime") Timestamp endDatetime,
         List<TripPlanDetailsPerDay> details
 
-        ) {
+) {
 }
