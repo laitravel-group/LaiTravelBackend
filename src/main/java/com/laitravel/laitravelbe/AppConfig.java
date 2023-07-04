@@ -30,9 +30,6 @@ public class AppConfig {
                 .getService();
     }
 
-
-
-
     @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
