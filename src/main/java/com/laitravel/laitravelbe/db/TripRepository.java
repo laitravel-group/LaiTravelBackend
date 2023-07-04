@@ -1,14 +1,13 @@
 package com.laitravel.laitravelbe.db;
 
-import com.laitravel.laitravelbe.db.entity.TripEntity;
+import com.laitravel.laitravelbe.db.entity.TripPlanEntity;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public interface TripRepository extends CrudRepository<TripEntity, Integer> {
+public interface TripRepository extends CrudRepository<TripPlanEntity, Integer> {
 
     //List<TripEntity> findByOwnerId(String ownerId);
 
