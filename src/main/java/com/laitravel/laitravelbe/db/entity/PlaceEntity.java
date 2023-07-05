@@ -2,6 +2,7 @@ package com.laitravel.laitravelbe.db.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
 import org.springframework.data.annotation.Id;

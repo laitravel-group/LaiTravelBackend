@@ -19,11 +19,10 @@ public record TripPlanEntity(
         List<TripPlanDetailsPerDay> details
 ) {
     public TripPlan toTripPlan(String cityName) {
-        // TODO: change cityId to city name
-        return new TripPlan(tripId, cityName, startDate, endDate, details);
+        return new TripPlan(tripId, cityId, cityName, startDate, endDate, details);
     }
 
     public TripPlan toTripPlanNoDetails(String cityName) {
-        return new TripPlan(tripId, cityName, startDate, endDate, null);
+        return new TripPlan(tripId, cityId, cityName, startDate, endDate, null);
     }
 }

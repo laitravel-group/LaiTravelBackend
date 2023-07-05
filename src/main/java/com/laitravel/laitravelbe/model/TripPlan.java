@@ -8,12 +8,13 @@ import java.util.List;
 
 public record TripPlan(
         @JsonProperty("trip_id") String tripId,
+        @JsonProperty("city_id") String cityId,
         @JsonProperty("destination_city") String destinationCity,
         @JsonProperty("start_datetime") Timestamp startDate,
         @JsonProperty("end_datetime") Timestamp endDate,
         List<TripPlanDetailsPerDay> details
 ) {
-    public TripPlanEntity toTripPlanEntity(String ownerId, String cityId) {
+    public TripPlanEntity toTripPlanEntity(String ownerId) {
         return new TripPlanEntity(tripId, ownerId, cityId, startDate, endDate, details);
     }
 }

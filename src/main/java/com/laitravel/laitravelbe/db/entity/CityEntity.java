@@ -1,6 +1,7 @@
 package com.laitravel.laitravelbe.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.laitravel.laitravelbe.model.City;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -10,4 +11,8 @@ public record CityEntity(
         String cityId,
         String cityName
 ) {
+    public City toCity() {
+        return new City(cityId, cityName);
+    }
+
 }

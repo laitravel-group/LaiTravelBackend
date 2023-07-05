@@ -1,18 +1,24 @@
 package com.laitravel.laitravelbe.db;
 
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
-import org.springframework.data.repository.CrudRepository;
+import com.laitravel.laitravelbe.model.OpeningHours;
+import org.springframework.data.jdbc.repository.query.Modifying;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-public interface PlaceRepository extends CrudRepository<PlaceEntity, String> {
+public interface PlaceRepository extends ListCrudRepository<PlaceEntity, String> {
 
     List<PlaceEntity> findByCityId(String cityId);
-    List<PlaceEntity> findByNameOfPlace(String nameOfPlace);
+    List<PlaceEntity> findByPlaceName(String placeName);
     PlaceEntity findByPlaceId (String placeId);
-
-    //根据关键字在场所名称和地址中进行模糊查询，返回匹配的场所信息列表。
+    @Modifying
+    @Query("INSERT INTO place (place_id, place_name, city_id, lat, lng, photo, types, formatted_address, description, rating, opening_hours, last_updated) VALUES (:placeId, :placeName, :cityId, :lat, :lng, :photo, :types, :formattedAddress, :description, :rating, :openingHours, :lastUpdated)")
+    void insertPlace(String placeId, String placeName, String cityId, Double lat, Double lng, String photo, List<String> types,
+                     String formattedAddress, String description, Float rating, List<OpeningHours> openingHours, Timestamp lastUpdated);
 
 }
