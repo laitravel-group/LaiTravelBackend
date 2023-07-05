@@ -18,6 +18,10 @@ dependencies {
 
 
 	implementation 'com.google.maps:google-maps-services:2.2.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	implementation 'com.google.maps:google-maps-services:2.2.0'
 	implementation platform('com.google.cloud:libraries-bom:26.18.0')
 	implementation 'com.google.cloud:google-cloud-storage'
 

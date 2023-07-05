@@ -1,4 +1,4 @@
-package com.laitravel.laitravelbe.placeandinfomanagement;
+package com.laitravel.laitravelbe.place;
 
 import com.laitravel.laitravelbe.gcs.GCSService;
 import com.laitravel.laitravelbe.model.Place;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class PlaceController {
@@ -24,10 +23,7 @@ public class PlaceController {
 
     @GetMapping("/places")
     public List<Place> getPlaces(@RequestParam(value="city") String city, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) {
-        List<Place>results = placeService.placeSearch(city,startDate,endDate);
-        System.out.println(results.size());
-        return results;
-
+        return placeService.placeSearch(city, startDate, endDate);
     }
 
 

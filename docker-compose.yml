@@ -6,7 +6,7 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_HOST: '%'
-      MYSQL_DATABASE: LaiTravelBackend
+      MYSQL_DATABASE: laitravel
       MYSQL_ROOT_PASSWORD: secret
       TZ: UTC
     volumes:
