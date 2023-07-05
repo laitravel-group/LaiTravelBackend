@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS place CASCADE;
-DROP TABLE IF EXISTS trip CASCADE;
-DROP TABLE IF EXISTS city;
+DROP TABLE IF EXISTS trip_plan;
+DROP TABLE IF EXISTS place;
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS city;
 
 CREATE TABLE user (
                        user_id      VARCHAR(64) NOT NULL PRIMARY KEY,
@@ -21,7 +21,7 @@ CREATE TABLE trip_plan (
                       city_id    VARCHAR(255) NOT NULL,
                       start_date TIMESTAMP NOT NULL,
                       end_date   TIMESTAMP NOT NULL,
-                      details    JSON,
+                      details    TEXT,
                       FOREIGN KEY (owner_id) REFERENCES user(user_id) ON DELETE CASCADE,
                       FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -33,11 +33,11 @@ CREATE TABLE place (
                        lat                  DOUBLE,
                        lng                  DOUBLE,
                        photo                TEXT,
-                       types                JSON,
+                       types                TEXT,
                        formatted_address    TEXT,
                        description          TEXT,
                        rating               FLOAT,
-                       opening_hours        JSON,
+                       opening_hours        TEXT,
                        last_updated         TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                        FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

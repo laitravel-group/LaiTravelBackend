@@ -1,7 +1,7 @@
 package com.laitravel.laitravelbe.place;
 
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.DistanceMatrixApiRequest;
+import com.google.maps.model.*;
 import com.laitravel.laitravelbe.db.CityRepository;
 import com.laitravel.laitravelbe.db.PlaceRepository;
 import com.laitravel.laitravelbe.db.entity.CityEntity;
@@ -11,14 +11,12 @@ import com.laitravel.laitravelbe.model.Place;
 import com.laitravel.laitravelbe.api.GooglePlaceService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -124,11 +122,10 @@ public class PlaceService {
                     placesSearchResult.rating,
                     openingHours);
             PlaceEntity newPlaceEntity = newPlace.toPlaceEntity();
-            placeRepository.insertPlace(newPlaceEntity.placeId(), newPlaceEntity.placeName(),
-                    newPlaceEntity.cityId(), newPlaceEntity.lat(),
-                    newPlaceEntity.lng(), newPlaceEntity.photo(), newPlaceEntity.types(),
-                    newPlaceEntity.formattedAddress(), newPlaceEntity.description(),
-                    newPlaceEntity.rating(), newPlaceEntity.openingHours(), newPlaceEntity.lastUpdated());
+            placeRepository.insertPlaceId(newPlaceEntity.placeId(), newPlace.cityId());
+            // System.out.println("inserted place id");
+            placeRepository.save(newPlaceEntity);
+
 
             // if days in dayOfWeekList contains opening hours, add to return result
             if (containsValidWeekDays(dayOfWeekList, openingHours)) {
@@ -138,6 +135,44 @@ public class PlaceService {
 
         return resultPlaces;
     }
+
+    public Map<Place, Map<Place,Integer>> getDistances(Place origin, List<Place> destinations) {
+        Map<Place,Map<Place,Integer>> answer = new HashMap<>();
+
+        destinations.add(0,origin);
+
+        for(int i=0; i < destinations.size();i++) {
+            List<Place> newList = new ArrayList<>();
+            for(int j=0; j < destinations.size();j++) {  //destinations.size()
+                if(i == j) continue;
+                newList.add(destinations.get(j));
+            }
+            Place start = destinations.get(i);
+            Map<Place,Integer> adj = getMap(start,newList);
+            answer.put(start,adj);
+        }
+        return answer;
+    }
+
+    Map<Place,Integer> getMap(Place origin,List<Place> destinations) {
+        Map<Place,Integer> adj = new HashMap<>();
+        LatLng startLocation = new LatLng(origin.lat(), origin.lng());
+        for (Place place:destinations) {
+            LatLng desLocation = new LatLng(place.lat(), place.lng());
+            DistanceMatrixRow[] result = googlePlaceApiService.getDistanceMatrix(startLocation, desLocation).rows;
+            if(result.length == 0) return null;
+            DistanceMatrixElement[] elements = result[0].elements;
+            Integer minutes = 60;
+            if(elements[0].duration != null) {
+                minutes = (int) Math.ceil(elements[0].duration.inSeconds/60.0);
+            }
+            adj.put(place, minutes);
+
+        }
+        return adj;
+    }
+
+
 
     private boolean containsValidWeekDays(List<DayOfWeek> dayOfWeekList, List<OpeningHours> openingHours) {
         for (OpeningHours dayOpeningHours : openingHours) {

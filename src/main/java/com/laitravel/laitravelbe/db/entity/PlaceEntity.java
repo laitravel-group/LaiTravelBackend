@@ -1,6 +1,8 @@
 package com.laitravel.laitravelbe.db.entity;
 
 
+import com.google.gson.reflect.TypeToken;
+import com.laitravel.laitravelbe.gson.GsonUtil;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
 import org.springframework.data.annotation.Id;
@@ -18,14 +20,14 @@ public record PlaceEntity(
         Double lat,
         Double lng,
         String photo,
-        List<String> types,
+        String types,
         String formattedAddress,
         String description,
         Float rating,
-        List<OpeningHours> openingHours,
+        String openingHours,
         Timestamp lastUpdated
 ) {
     public Place toPlace() {
-        return new Place(placeId, placeName, cityId, lat, lng, photo, types, formattedAddress, description, rating, openingHours);
+        return new Place(placeId, placeName, cityId, lat, lng, photo, GsonUtil.gson.fromJson(types, new TypeToken<List<String>>() {}.getType()), formattedAddress, description, rating, GsonUtil.gson.fromJson(openingHours, new TypeToken<List<OpeningHours>>() {}.getType()));
     }
 }

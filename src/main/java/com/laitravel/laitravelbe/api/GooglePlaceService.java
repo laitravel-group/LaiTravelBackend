@@ -73,7 +73,16 @@ public class GooglePlaceService {
         }
     }
 
-
+    public DistanceMatrix getDistanceMatrix(LatLng origin, LatLng destination) {
+        DistanceMatrixApiRequest request = new DistanceMatrixApiRequest(context)
+                .origins(origin)
+                .destinations(destination);
+        try {
+            return request.await();
+        } catch (ApiException | InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 

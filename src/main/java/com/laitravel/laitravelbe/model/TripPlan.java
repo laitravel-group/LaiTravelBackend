@@ -1,7 +1,9 @@
 package com.laitravel.laitravelbe.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.Gson;
 import com.laitravel.laitravelbe.db.entity.TripPlanEntity;
+import com.laitravel.laitravelbe.gson.GsonUtil;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -15,6 +17,6 @@ public record TripPlan(
         List<TripPlanDetailsPerDay> details
 ) {
     public TripPlanEntity toTripPlanEntity(String ownerId) {
-        return new TripPlanEntity(tripId, ownerId, cityId, startDate, endDate, details);
+        return new TripPlanEntity(tripId, ownerId, cityId, startDate, endDate, GsonUtil.gson.toJson(details));
     }
 }
