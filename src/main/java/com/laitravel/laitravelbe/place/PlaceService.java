@@ -26,7 +26,9 @@ public class PlaceService {
 
     public List<Place> placeSearch(String cityName, String startDateString, String endDateString){
         // TODO
-        // Search the city first
+        // find if city in db
+
+        // if none then search the city first
         PlacesSearchResult[] citySearchResult = googlePlaceApiService.textSearchQuery(cityName);
 
 
@@ -61,7 +63,7 @@ public class PlaceService {
             return resultPlaces;
         }
         // sort place in rating
-        Arrays.sort(placesSearchResults, (place1, place2) -> Float.compare(place1.rating, place2.rating));
+        Arrays.sort(placesSearchResults, (place1, place2) -> Float.compare(place2.rating, place1.rating));
 
 
 
@@ -77,7 +79,6 @@ public class PlaceService {
             // TODO
             // save photo to gcs
             byte[] photoData = googlePlaceApiService.getImageByReference(placeDetails.photos[0].photoReference);
-
 
             // TODO
             // places are added to database regardless valid or not

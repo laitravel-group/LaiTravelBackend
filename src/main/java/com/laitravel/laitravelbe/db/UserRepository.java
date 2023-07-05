@@ -17,6 +17,6 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
     UserEntity findByUserId(String userId);
 
     @Modifying
-    @Query("UPDATE users SET displayName = :displayName, avatar = :avatar WHERE userId = :userId")
+    @Query("UPDATE user SET displayName = :displayName, avatar = :avatar WHERE userId = :userId")
     void updateNameByUserId(String userId, String displayName, String avatar);
 }

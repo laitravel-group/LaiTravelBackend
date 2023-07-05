@@ -16,11 +16,8 @@ import java.util.List;
 public record PlaceEntity(
         @Id
         String placeId,
-
         String placeName,
-
         String cityId,
-
         Double lat,
         Double lng,
         String photo,
