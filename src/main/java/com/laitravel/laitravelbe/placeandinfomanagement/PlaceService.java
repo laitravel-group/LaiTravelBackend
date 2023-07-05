@@ -145,7 +145,7 @@ public class PlaceService {
     public byte[] getPhoto (PlaceDetails place) {
         if(place == null) return null;
         Photo[] photos = place.photos;
-        if (photos.length <1) {
+        if (photos == null) {
             return null;
         }
         String photoReference = photos[0].photoReference;

@@ -19,6 +19,7 @@ public class GCSService {
 
     public String uploadImage(
              String bucketName, String placeID, byte[] contents) {
+        if(contents == null) return "";
         placeID = placeID + ".jpg";
         BlobId blobId = BlobId.of(bucketName, placeID);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
