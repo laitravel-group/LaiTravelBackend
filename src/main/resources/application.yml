@@ -6,9 +6,22 @@ logging:
 google:
   map-key: AIzaSyC2CxkBl9JyAPvO0lAKDrvBHw4oURSCXFI
 
+GCS:
+  project-id: hidden-cosmos-385921
+  bucket-name: laitravel-bucket
+
+
+jwt:
+  secret: "LaiTravel666"
+  expirationHours: 3600
+
 spring:
+  jackson:
+    default-property-inclusion: non_null
+
+
   datasource:
-    url: jdbc:mysql://${DATABASE_URL:localhost}:3306/laitravel?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${DATABASE_URL:localhost}:3306/LaiTravelBackend?createDatabaseIfNotExist=true
     username: ${DATABASE_USERNAME:root}
     password: ${DATABASE_PASSWORD:secret}
     driver-class-name: com.mysql.cj.jdbc.Driver

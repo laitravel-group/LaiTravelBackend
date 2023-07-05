@@ -10,5 +10,5 @@ public record OpeningHours(
         @JsonProperty("open_time") LocalTime openTime,
         @JsonProperty("close_time") LocalTime closeTime
 
-        ) {
+) {
 }

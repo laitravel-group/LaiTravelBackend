@@ -1,0 +1,37 @@
+{
+  "info": {
+    "_postman_id": "f4a7cb3a-7364-42e4-bfa7-246cb5c1fe17",
+    "name": "Register User",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "url": {
+          "raw": "{{base_url}}/register",
+          "protocol": "{{protocol}}",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "register"
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userID\": \"user123\",\n    \"password\": \"password123\",\n    \"displayName\": \"John Doe\",\n    \"avatar\": \"avatar.png\"\n}"
+        },
+        "description": "Register a new user"
+      },
+      "response": []
+    }
+  ]
+}

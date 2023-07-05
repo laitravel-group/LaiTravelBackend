@@ -6,5 +6,5 @@ import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
 public record TripPlanBuildRequestBody(
         Boolean init,
         @JsonProperty("desire_plan") TripPlanDetailsPerDay desiredPlan
-        ) {
+) {
 }
