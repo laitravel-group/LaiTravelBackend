@@ -1,6 +1,5 @@
 package com.laitravel.laitravelbe.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laitravel.laitravelbe.model.City;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;

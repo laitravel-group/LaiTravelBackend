@@ -23,7 +23,7 @@ CREATE TABLE trip_plan (
                       end_date   TIMESTAMP NOT NULL,
                       details    JSON,
                       FOREIGN KEY (owner_id) REFERENCES user(user_id) ON DELETE CASCADE,
-                      FOREIGN KEY (city_id) REFERENCES `city`(city_id) ON DELETE CASCADE ON UPDATE CASCADE
+                      FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE place (
@@ -39,5 +39,5 @@ CREATE TABLE place (
                        rating               FLOAT,
                        opening_hours        JSON,
                        last_updated         TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                       FOREIGN KEY (city_id) REFERENCES `city`(city_id) ON DELETE CASCADE ON UPDATE CASCADE
+                       FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
