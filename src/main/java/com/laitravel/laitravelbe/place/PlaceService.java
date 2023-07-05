@@ -1,17 +1,15 @@
 package com.laitravel.laitravelbe.place;
 
-import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.model.*;
+import com.laitravel.laitravelbe.api.GooglePlaceService;
 import com.laitravel.laitravelbe.db.CityRepository;
 import com.laitravel.laitravelbe.db.PlaceRepository;
 import com.laitravel.laitravelbe.db.entity.CityEntity;
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
-import com.laitravel.laitravelbe.api.GooglePlaceService;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -38,7 +36,7 @@ public class PlaceService {
 
         // find if city in db
         List<CityEntity> cityEntities = cityRepository.findByCityName(cityName);
-        CityEntity city = null;
+        CityEntity city;
         if (!cityEntities.isEmpty()) {
             city = cityEntities.get(0);
         } else {
@@ -162,7 +160,7 @@ public class PlaceService {
             DistanceMatrixRow[] result = googlePlaceApiService.getDistanceMatrix(startLocation, desLocation).rows;
             if(result.length == 0) return null;
             DistanceMatrixElement[] elements = result[0].elements;
-            Integer minutes = 60;
+            int minutes = 60;
             if(elements[0].duration != null) {
                 minutes = (int) Math.ceil(elements[0].duration.inSeconds/60.0);
             }
