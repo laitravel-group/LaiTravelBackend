@@ -1,19 +1,17 @@
-package com.laitravel.laitravelbe.gcs;
+package com.laitravel.laitravelbe.api;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
 import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GCSService {
+public class GoogleCloudService {
     final Storage storage;
 
-    public  GCSService(Storage storage) {
+    public GoogleCloudService(Storage storage) {
         this.storage = storage;
     }
 

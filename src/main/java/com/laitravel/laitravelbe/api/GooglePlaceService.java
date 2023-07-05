@@ -1,4 +1,4 @@
-package com.laitravel.laitravelbe.place.api;
+package com.laitravel.laitravelbe.api;
 
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class GooglePlaceApiService {
+public class GooglePlaceService {
     final GeoApiContext context;
 
-    public GooglePlaceApiService(GeoApiContext context) {
+    public GooglePlaceService(GeoApiContext context) {
         this.context = context;
     }
 

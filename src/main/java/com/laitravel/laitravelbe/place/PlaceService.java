@@ -8,7 +8,7 @@ import com.laitravel.laitravelbe.db.entity.CityEntity;
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
-import com.laitravel.laitravelbe.place.api.GooglePlaceApiService;
+import com.laitravel.laitravelbe.api.GooglePlaceService;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -23,11 +23,11 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class PlaceService {
-    final GooglePlaceApiService googlePlaceApiService;
+    final GooglePlaceService googlePlaceApiService;
     final CityRepository cityRepository;
     final PlaceRepository placeRepository;
 
-    public PlaceService(GooglePlaceApiService service, CityRepository cityRepository, PlaceRepository placeRepository) {
+    public PlaceService(GooglePlaceService service, CityRepository cityRepository, PlaceRepository placeRepository) {
         this.googlePlaceApiService = service;
         this.cityRepository = cityRepository;
         this.placeRepository = placeRepository;

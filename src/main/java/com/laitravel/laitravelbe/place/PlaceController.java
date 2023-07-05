@@ -1,6 +1,6 @@
 package com.laitravel.laitravelbe.place;
 
-import com.laitravel.laitravelbe.gcs.GCSService;
+import com.laitravel.laitravelbe.api.GoogleCloudService;
 import com.laitravel.laitravelbe.model.Place;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +12,9 @@ import java.util.List;
 @RestController
 public class PlaceController {
     final PlaceService placeService;
-    final GCSService gcsService;
+    final GoogleCloudService gcsService;
     final String bucketName;
-    public PlaceController(PlaceService placeService, GCSService gcsService,@Value("${GCS.bucket-name}") String bucketName) {
+    public PlaceController(PlaceService placeService, GoogleCloudService gcsService, @Value("${GCS.bucket-name}") String bucketName) {
 
         this.placeService = placeService;
         this.gcsService = gcsService;
