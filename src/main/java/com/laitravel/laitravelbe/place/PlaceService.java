@@ -151,17 +151,17 @@ public class PlaceService {
     public Map<Place, Map<Place,Integer>> getPlaceTravelTimeMap(Place origin, List<Place> destinations) {
         Map<Place,Map<Place,Integer>> answer = new HashMap<>();
 
-        destinations.add(0,origin);
-
-        for(int i=0; i < destinations.size();i++) {
+        Map<Place,Integer> adj = getMap(origin, destinations);
+        answer.put(origin, adj);
+        for (int i = 0; i < destinations.size(); i++) {
             List<Place> newList = new ArrayList<>();
-            for(int j=0; j < destinations.size();j++) {  //destinations.size()
-                if(i == j) continue;
+            for (int j = 0; j < destinations.size(); j++) {  //destinations.size()
+                if (i == j) continue;
                 newList.add(destinations.get(j));
             }
             Place start = destinations.get(i);
-            Map<Place,Integer> adj = getMap(start,newList);
-            answer.put(start,adj);
+            adj = getMap(start,newList);
+            answer.put(start, adj);
         }
         return answer;
     }
@@ -200,7 +200,7 @@ public class PlaceService {
             for (int i = 1; i < 7; i++) {
                 openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
                         DayOfWeek.of(i),
-                        "9:00",
+                        "09:00",
                         "18:00"));
             }
         } else {

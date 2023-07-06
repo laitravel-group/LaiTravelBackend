@@ -56,7 +56,7 @@ public class TripPlanBuilder {
                 currentPlaceDetails.endTime = DateTimeUtils.localTimeToString(leaveTime);
 
                 // DEBUG: Print the current place details
-                TripPlanUtils.printCurrentPlaceDetails(currentPlaceDetails);
+                //TripPlanUtils.printCurrentPlaceDetails(currentPlaceDetails);
 
                 // Add the current place to the final plans
                 proposedDetails.add(currentPlaceDetails);
@@ -124,12 +124,15 @@ public class TripPlanBuilder {
         }
 
         private void updateTravelTime(Place place) {
+            System.out.println(placeToDetailsMap);
             for (Map.Entry<Place, Integer> entry : placeTravelTimeMap.get(place).entrySet()) {
+                System.out.println("Entry Key: " + entry.getKey());
+
                 // Get the details of the adjacent places
                 PlaceVisitDetails adjacentPlaceDetails = placeToDetailsMap.get(entry.getKey());
-                // Update the travel time to the adjacent place
-                adjacentPlaceDetails.travelTime = entry.getValue();
                 if (!adjacentPlaceDetails.isVisited && !unvisitedPlaceSet.contains(adjacentPlaceDetails)) {
+                    // Update the travel time to the adjacent place
+                    adjacentPlaceDetails.travelTime = entry.getValue();
                     unvisitedPlacePQ.offer(adjacentPlaceDetails);
                     unvisitedPlaceSet.add(adjacentPlaceDetails);
                 }

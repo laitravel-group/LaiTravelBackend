@@ -37,6 +37,7 @@ public class TripPlanController {
 
     @PostMapping("/trip-plan-build")
     public TripPlanBuildResponseBody buildRecommendedTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
+        //System.out.println(requestBody.desiredPlan().startLocation());
         // build a TripPlanBuildResponseBody with TripPlanDetailsPerDay
         return travelPlanService.buildRecommendedTripPlanPerDay(requestBody);
     }

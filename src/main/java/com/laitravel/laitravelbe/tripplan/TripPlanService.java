@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TripPlanService {
@@ -62,7 +64,7 @@ public class TripPlanService {
                 desiredPlan,
                 placeService.getPlaceTravelTimeMap(
                         desiredPlan.startLocation(),
-                        desiredPlan.visits().stream().map(details->details.place).toList()));
+                        desiredPlan.visits().stream().map(details->details.place).collect(Collectors.toCollection(ArrayList::new))));
         TripPlanDetailsPerDay proposedPlan = tripPlanBuilder.calculateShortestPath();
         return new TripPlanBuildResponseBody(false, List.of(proposedPlan));
     }

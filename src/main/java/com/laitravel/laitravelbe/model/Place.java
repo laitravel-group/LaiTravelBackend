@@ -30,6 +30,9 @@ public record Place(
 
     public OpeningHours getOpeningHoursForDate(LocalDate date){
         DayOfWeek dayOfWeek = date.getDayOfWeek();
+        if (openingHours == null) {
+            return new OpeningHours(dayOfWeek, "09:00","18:00");
+        }
         List<OpeningHours> openingHoursForDate = openingHours.stream()
                 .filter(dayOpeningHours -> dayOpeningHours.dayOfWeek().equals(dayOfWeek)).toList();
         return openingHoursForDate.isEmpty() ? null : openingHoursForDate.get(0);
