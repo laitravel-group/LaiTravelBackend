@@ -14,7 +14,7 @@ public interface TripRepository extends ListCrudRepository<TripPlanEntity, Integ
     List<TripPlanEntity> getTripPlanListNoDetails(String ownerId);
 
     @Query("SELECT details FROM trip_plan WHERE trip_id = :tripId")
-    List<TripPlanDetailsPerDay> getTripPlanDetails(int tripId);
+    TripPlanEntity getTripPlanDetails(int tripId);
 
     @Modifying
     @Query("DELETE FROM trip_plan WHERE trip_id = :tripId")
