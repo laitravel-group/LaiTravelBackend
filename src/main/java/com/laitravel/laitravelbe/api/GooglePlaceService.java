@@ -28,7 +28,7 @@ public class GooglePlaceService {
     public PlaceDetails getPlaceDetails(String placeId) {
         try {
             return PlacesApi.placeDetails(context, placeId)
-                    .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY)
+                    .fields(PlaceDetailsRequest.FieldMask.OPENING_HOURS, PlaceDetailsRequest.FieldMask.EDITORIAL_SUMMARY,PlaceDetailsRequest.FieldMask.PHOTOS)
                     .await();
         } catch (ApiException | IOException | InterruptedException e) {
             throw new RuntimeException(e);

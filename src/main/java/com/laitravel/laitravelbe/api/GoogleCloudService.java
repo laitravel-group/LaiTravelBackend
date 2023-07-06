@@ -14,8 +14,7 @@ public class GoogleCloudService {
     final Storage storage;
     private final Logger LOGGER = LoggerFactory.getLogger(GoogleCloudService.class);
 
-    public GoogleCloudService(Storage storage) {
-        this.storage = storage;
+    public GoogleCloudService(Storage storage) { this.storage = storage;
     }
 
     public String uploadImage(String bucketName, String placeId, byte[] imageData) {

@@ -33,7 +33,7 @@ public class PlaceService {
             CityRepository cityRepository,
             PlaceRepository placeRepository,
             GoogleCloudService googleCloudService,
-            @Value("${GCS.project-id}")  String bucketName) {
+            @Value("${GCS.bucket-name}")  String bucketName) {
 
         this.googlePlaceApiService = service;
         this.cityRepository = cityRepository;
@@ -64,7 +64,7 @@ public class PlaceService {
             }
         }
 
-        String searchQuery = String.format("famous travel spots in %s county", cityName);
+        String searchQuery = String.format("top travel spots in %s and vicinity", cityName);
         // use US standard date format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate startDate = LocalDate.parse(startDateString, formatter);
