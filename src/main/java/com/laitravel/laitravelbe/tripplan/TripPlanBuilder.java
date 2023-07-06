@@ -124,10 +124,7 @@ public class TripPlanBuilder {
         }
 
         private void updateTravelTime(Place place) {
-            System.out.println(placeToDetailsMap);
             for (Map.Entry<Place, Integer> entry : placeTravelTimeMap.get(place).entrySet()) {
-                System.out.println("Entry Key: " + entry.getKey());
-
                 // Get the details of the adjacent places
                 PlaceVisitDetails adjacentPlaceDetails = placeToDetailsMap.get(entry.getKey());
                 if (!adjacentPlaceDetails.isVisited && !unvisitedPlaceSet.contains(adjacentPlaceDetails)) {
