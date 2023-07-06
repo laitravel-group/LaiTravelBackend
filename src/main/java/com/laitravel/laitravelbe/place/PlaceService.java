@@ -132,7 +132,9 @@ public class PlaceService {
                     placesSearchResult.rating,
                     openingHours);
             PlaceEntity newPlaceEntity = newPlace.toPlaceEntity();
-            placeRepository.insertPlaceId(newPlaceEntity.placeId(), newPlace.cityId());
+            if (placeRepository.findByPlaceId(newPlace.placeId()) != null) {
+                placeRepository.insertPlaceId(newPlaceEntity.placeId(), newPlace.cityId());
+            }
             placeRepository.save(newPlaceEntity);
 
 
