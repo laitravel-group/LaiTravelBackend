@@ -10,7 +10,6 @@ import java.util.List;
 
 public record Place(
         @JsonProperty("place_id") String placeId,
-
         @JsonProperty("place_name") String placeName,
         @JsonProperty("city_id") String cityId,
         Double lat,
