@@ -15,7 +15,7 @@ public class TravelPlanPerDayService {
 
     final PlaceService placeService;
 
-//    public TripPlanDetailsPerDay tripPlanDetailsPerDay;
+    public TripPlanDetailsPerDay tripPlanDetailsPerDay;
 
     public TravelPlanPerDayService(PlaceGraphBuilderService placeGraphBuilderService, PlaceService placeService) {
 
@@ -23,9 +23,9 @@ public class TravelPlanPerDayService {
         this.placeService = placeService;
     }
 
-    public void getDistance( Place origin){
+    public void getDistance( Place origin, List<PlaceVisitDetails> visits){
         List<Place> destinations = new ArrayList<>();
-        for (PlaceVisitDetails visit : tripPlanDetailsPerDay.visits()) {
+        for (PlaceVisitDetails visit : visits) {
             if (!visit.place.equals(origin)){
                 destinations.add(visit.place);
             }
@@ -34,7 +34,6 @@ public class TravelPlanPerDayService {
     }
 
     public TripPlanDetailsPerDay calculateShortestPath(Place start, Date date, LocalTime startTime, LocalTime endTime) {
-        getDistance(start);
 
         // Priority queue to store unvisited places, prioritized by travel time
         PriorityQueue<PlaceVisitDetails> unVisitedPlaces = new PriorityQueue<>(Comparator.comparingLong(c -> c.travelTime));

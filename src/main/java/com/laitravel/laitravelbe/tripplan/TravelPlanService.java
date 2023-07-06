@@ -65,6 +65,7 @@ public class TravelPlanService {
         // If init is true, create a new trip plan per day
         if (init) {
 
+            travelPlanPerDayService.getDistance(requestBody.desiredPlan().startLocation(), requestBody.desiredPlan().visits());
             TripPlanDetailsPerDay proposedPlan = travelPlanPerDayService.calculateShortestPath(start, date, startTime, endTime);
             addOrUpdateTravelPlan(proposedPlan);
             return new TripPlanBuildResponseBody(true, proposedPlan);
@@ -86,6 +87,7 @@ public class TravelPlanService {
         // If init is true, create a new trip plan per day
         if (init) {
 
+            travelPlanPerDayService.getDistance(requestBody.desiredPlan().startLocation(), requestBody.desiredPlan().visits());
             TripPlanDetailsPerDay proposedPlan = travelPlanPerDayService.autoPath(visits, date, startTime, endTime);
             addOrUpdateTravelPlan(proposedPlan);
             return new TripPlanBuildResponseBody(true, proposedPlan);
