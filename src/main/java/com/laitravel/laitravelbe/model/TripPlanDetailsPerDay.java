@@ -10,7 +10,6 @@ import java.util.List;
 public record TripPlanDetailsPerDay(
         Date date,
         @JsonProperty("start_location") Place startLocation,
-        @JsonProperty("date_Time") String dateTime,
         @JsonProperty("start_time") LocalTime startTime,
         @JsonProperty("end_time") LocalTime endTime,
 
