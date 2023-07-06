@@ -73,35 +73,38 @@ public class TripPlanBuilder {
     }
 
     public TripPlanDetailsPerDay autoPath() {
-//        LocalDate date = LocalDate.parse(desiredPlan.date());
-//        LocalTime startTime = DateTimeUtils.timeStringToLocalTime(desiredPlan.startTime());
-//        LocalTime endTime = DateTimeUtils.timeStringToLocalTime(desiredPlan.endTime());
-//
-//        List<PlaceVisitDetails> visits = desiredPlan.visits();
-//        LocalTime currentTime = startTime;
-//        PlaceVisitDetails prevPlaceVisitDetails = null;
-//
-//        for (PlaceVisitDetails visit : visits) {
-//            int arrivalTimeInMinutes = TripPlanUtils.timeToMinutes(currentTime) + prevPlaceVisitDetails.travelTime;
-//            int leaveTimeInMinutes = arrivalTimeInMinutes + prevPlaceVisitDetails.stayDuration;
-//            int travelTime = placeVisitOrderHelper.adjacentNodes.get(prevPlaceVisitDetails.place).get(visit.place);
-//
-//            // If the place is not open or if the stay duration exceeds the limit, remind the user
-//            if (!placeVisitOrderHelper.canVisitAtDateAndTime(prevPlaceVisitDetails, date, arrivalTimeInMinutes) || leaveTimeInMinutes > TripPlanUtils.timeToMinutes(endTime)) {
-//                System.err.println("The trip plan per day is not working because " + visit.place.placeName() + " visit time is not available for open time or close time or day endtime");
-//            }
-//
-//            visit.startTime = TripPlanUtils.minutesToTime(arrivalTimeInMinutes);
-//            visit.endTime = TripPlanUtils.minutesToTime(leaveTimeInMinutes);
-//            visit.travelTime = travelTime;
-//
-//            visits.add(visit);
-//            currentTime = visit.endTime;
-//            prevPlaceVisitDetails = visit;
-//        }
-//
-//        return desiredPlan;
-        return null;
+
+        LocalDate date = LocalDate.parse(desiredPlan.date());
+        LocalTime startTime = DateTimeUtils.timeStringToLocalTime(desiredPlan.startTime());
+        LocalTime endTime = DateTimeUtils.timeStringToLocalTime(desiredPlan.endTime());
+
+        List<PlaceVisitDetails> visits = desiredPlan.visits();
+        LocalTime currentTime = startTime;
+        PlaceVisitDetails prevPlaceVisitDetails = null;
+
+        for (PlaceVisitDetails visit : visits) {
+
+            LocalTime arrivalTime = currentTime.plusMinutes(prevPlaceVisitDetails.travelTime);
+            LocalTime leaveTime = arrivalTime.plusMinutes(prevPlaceVisitDetails.stayDuration);
+
+            int travelTime = placeVisitOrderHelper.placeToDetailsMap.get(prevPlaceVisitDetails.place).travelTime;
+
+            // If the place is not open or if the stay duration exceeds the limit, remind the user
+            if (!prevPlaceVisitDetails.canVisitAtDateAndTime(date, arrivalTime) || !leaveTime.isAfter(endTime)) {
+                System.err.println("The trip plan per day is not working because " + visit.place.placeName() + " visit time is not available for open time or close time or day endtime");
+            }
+
+            visit.startTime = DateTimeUtils.localTimeToString(arrivalTime);
+            visit.endTime = DateTimeUtils.localTimeToString(leaveTime);
+            visit.travelTime = travelTime;
+
+            visits.add(visit);
+            currentTime = leaveTime;
+            prevPlaceVisitDetails = visit;
+        }
+
+        return desiredPlan;
+
     }
 
     private class PlaceVisitOrderHelper {
