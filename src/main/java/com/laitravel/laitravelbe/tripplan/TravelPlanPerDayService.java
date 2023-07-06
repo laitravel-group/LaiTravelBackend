@@ -15,7 +15,7 @@ public class TravelPlanPerDayService {
 
     final PlaceService placeService;
 
-    public TripPlanDetailsPerDay tripPlanDetailsPerDay;
+//    public TripPlanDetailsPerDay tripPlanDetailsPerDay;
 
     public TravelPlanPerDayService(PlaceGraphBuilderService placeGraphBuilderService, PlaceService placeService) {
 
