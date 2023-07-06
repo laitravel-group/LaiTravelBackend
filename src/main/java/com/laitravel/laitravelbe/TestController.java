@@ -83,6 +83,7 @@ public class TestController {
         PlaceVisitDetails hydeParkVisit = new PlaceVisitDetails(hydePark, null, null, null, 30);
         PlaceVisitDetails operaHouseVisit = new PlaceVisitDetails(operaHouse, null, null, null, 120);
 
+
         java.time.LocalDate localDate = java.time.LocalDate.of(2023, 8, 1);
         java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
         // Create the TripPlanDetailsPerDay

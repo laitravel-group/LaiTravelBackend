@@ -33,6 +33,12 @@ public class TravelPlanPerDayService {
         placeGraphBuilderService.adjacentNodes = placeService.getDistances(origin, destinations);
     }
 
+    public void buildPlaceVisitDetails (List<PlaceVisitDetails> visits){
+        for (PlaceVisitDetails visit : visits){
+            placeGraphBuilderService.placeDetails.put(visit.place, visit);
+        }
+    }
+
     public TripPlanDetailsPerDay calculateShortestPath(Place start, Date date, LocalTime startTime, LocalTime endTime) {
 
         // Priority queue to store unvisited places, prioritized by travel time
