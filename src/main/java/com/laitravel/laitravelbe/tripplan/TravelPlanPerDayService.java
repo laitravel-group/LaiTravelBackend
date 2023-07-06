@@ -33,7 +33,7 @@ public class TravelPlanPerDayService {
         placeGraphBuilderService.adjacentNodes = placeService.getDistances(origin, destinations);
     }
 
-    public TripPlanDetailsPerDay calculateShortestPath(Place start, String dateTime, LocalTime startTime, LocalTime endTime) {
+    public TripPlanDetailsPerDay calculateShortestPath(Place start, Date date, LocalTime startTime, LocalTime endTime) {
         getDistance(start);
 
         // Priority queue to store unvisited places, prioritized by travel time
@@ -45,7 +45,7 @@ public class TravelPlanPerDayService {
         PlaceVisitDetails startPlaceDetails = placeGraphBuilderService.placeDetails.get(start);
 
         // Check if the start place is open, if not, prompt the user
-        if (!placeGraphBuilderService.travelInOpenTime(startPlaceDetails, placeGraphBuilderService.timeToMinutes(startTime), dateTime)) {
+        if (!placeGraphBuilderService.travelInOpenTime(startPlaceDetails, placeGraphBuilderService.timeToMinutes(startTime), date)) {
             System.err.println("The place you chose is not open yet, please change start time or start location!");
             return tripPlanDetailsPerDay;
         }
@@ -68,7 +68,7 @@ public class TravelPlanPerDayService {
             int leaveTimeInMinutes = arrivalTimeInMinutes + currentPlaceDetails.stayDuration;
 
             // If the place is not open or if the stay duration exceeds the limit, skip this place
-            if (!placeGraphBuilderService.travelInOpenTime(currentPlaceDetails, arrivalTimeInMinutes, dateTime) || leaveTimeInMinutes > endTimeInMinutes) {
+            if (!placeGraphBuilderService.travelInOpenTime(currentPlaceDetails, arrivalTimeInMinutes, date) || leaveTimeInMinutes > endTimeInMinutes) {
                 continue;
             }
 
@@ -102,7 +102,7 @@ public class TravelPlanPerDayService {
         return tripPlanDetailsPerDay;
     }
 
-    public TripPlanDetailsPerDay autoPath(List<PlaceVisitDetails> visits, String dateTime, LocalTime startTime, LocalTime endTime) {
+    public TripPlanDetailsPerDay autoPath(List<PlaceVisitDetails> visits, Date date, LocalTime startTime, LocalTime endTime) {
         LocalTime currentTime = startTime;
         PlaceVisitDetails prevPlaceVisitDetails = null;
 
@@ -112,7 +112,7 @@ public class TravelPlanPerDayService {
             int travelTime = placeGraphBuilderService.adjacentNodes.get(prevPlaceVisitDetails.place).get(visit.place);
 
             // If the place is not open or if the stay duration exceeds the limit, remind the user
-            if (!placeGraphBuilderService.travelInOpenTime(prevPlaceVisitDetails, arrivalTimeInMinutes, dateTime) || leaveTimeInMinutes > placeGraphBuilderService.timeToMinutes(endTime)) {
+            if (!placeGraphBuilderService.travelInOpenTime(prevPlaceVisitDetails, arrivalTimeInMinutes, date) || leaveTimeInMinutes > placeGraphBuilderService.timeToMinutes(endTime)) {
                 System.err.println("The trip plan per day is not working because " + visit.place.placeName() + " visit time is not available for open time or close time or day endtime");
             }
 

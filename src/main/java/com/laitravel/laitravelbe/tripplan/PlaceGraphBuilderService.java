@@ -5,10 +5,8 @@ import com.laitravel.laitravelbe.model.Place;
 import com.laitravel.laitravelbe.model.PlaceVisitDetails;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.time.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,25 +31,31 @@ public class PlaceGraphBuilderService {
         return LocalTime.of(hours, mins, 0);
     }
 
-    LocalTime getOpenTime(Place place, String dateTime){
-        LocalDate date = LocalDate.parse(dateTime, DateTimeFormatter.ISO_DATE);
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
+    LocalTime getOpenTime(Place place, Date date){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        ZonedDateTime zdt = date.toInstant().atZone(defaultZoneId);
+        LocalDate localDate = zdt.toLocalDate();
+
+        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
         int dayOfWeekValue = dayOfWeek.getValue();
         OpeningHours openingHours = place.openingHours().get(dayOfWeekValue - 1);
         return openingHours.openTime();
     }
 
-    LocalTime getCloseTimeTime(Place place, String dateTime){
-        LocalDate date = LocalDate.parse(dateTime, DateTimeFormatter.ISO_DATE);
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
+    LocalTime getCloseTimeTime(Place place, Date date){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        ZonedDateTime zdt = date.toInstant().atZone(defaultZoneId);
+        LocalDate localDate = zdt.toLocalDate();
+
+        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
         int dayOfWeekValue = dayOfWeek.getValue();
         OpeningHours openingHours = place.openingHours().get(dayOfWeekValue - 1);
         return openingHours.closeTime();
     }
 
-    boolean travelInOpenTime(PlaceVisitDetails placeDetails, int startTimeInMinutes, String dateTime) {
-        int openingTime = timeToMinutes(getOpenTime(placeDetails.place, dateTime));
-        int closingTime = timeToMinutes(getCloseTimeTime(placeDetails.place, dateTime));
+    boolean travelInOpenTime(PlaceVisitDetails placeDetails, int startTimeInMinutes, Date date) {
+        int openingTime = timeToMinutes(getOpenTime(placeDetails.place, date));
+        int closingTime = timeToMinutes(getCloseTimeTime(placeDetails.place, date));
         int endTimeInMinutes = startTimeInMinutes + placeDetails.stayDuration;
 
         return startTimeInMinutes >= openingTime && endTimeInMinutes <= closingTime;

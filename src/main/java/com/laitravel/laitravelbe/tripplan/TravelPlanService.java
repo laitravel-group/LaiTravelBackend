@@ -10,11 +10,11 @@ import com.laitravel.laitravelbe.model.TripPlan;
 import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
 import com.laitravel.laitravelbe.model.request.TripPlanBuildRequestBody;
 import com.laitravel.laitravelbe.model.response.TripPlanBuildResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -58,14 +58,14 @@ public class TravelPlanService {
         TripPlanDetailsPerDay desiredPlan = requestBody.desiredPlan();
 
         Place start = desiredPlan.startLocation();
-        String dateTime = desiredPlan.dateTime();
+        Date date = desiredPlan.date();
         LocalTime startTime = desiredPlan.startTime();
         LocalTime endTime = desiredPlan.endTime();
 
         // If init is true, create a new trip plan per day
         if (init) {
 
-            TripPlanDetailsPerDay proposedPlan = travelPlanPerDayService.calculateShortestPath(start, dateTime, startTime, endTime);
+            TripPlanDetailsPerDay proposedPlan = travelPlanPerDayService.calculateShortestPath(start, date, startTime, endTime);
             addOrUpdateTravelPlan(proposedPlan);
             return new TripPlanBuildResponseBody(true, proposedPlan);
         }
@@ -78,7 +78,7 @@ public class TravelPlanService {
         Boolean init = requestBody.init();
         TripPlanDetailsPerDay desiredPlan = requestBody.desiredPlan();
 
-        String dateTime = desiredPlan.dateTime();
+        Date date = desiredPlan.date();
         LocalTime startTime = desiredPlan.startTime();
         LocalTime endTime = desiredPlan.endTime();
         List<PlaceVisitDetails> visits = desiredPlan.visits();
@@ -86,7 +86,7 @@ public class TravelPlanService {
         // If init is true, create a new trip plan per day
         if (init) {
 
-            TripPlanDetailsPerDay proposedPlan = travelPlanPerDayService.autoPath(visits, dateTime, startTime, endTime);
+            TripPlanDetailsPerDay proposedPlan = travelPlanPerDayService.autoPath(visits, date, startTime, endTime);
             addOrUpdateTravelPlan(proposedPlan);
             return new TripPlanBuildResponseBody(true, proposedPlan);
         }
@@ -100,7 +100,7 @@ public class TravelPlanService {
         List<TripPlanDetailsPerDay> details = tripPlan.details();
         int indexToUpdate = -1;
         for (int i = 0; i < details.size(); i++){
-            if (details.get(i).dateTime().equals(tripPlanDetailsPerDay.dateTime())){
+            if (details.get(i).date().equals(tripPlanDetailsPerDay.date())){
                 // find same date travel plan then update it
                 indexToUpdate = i;
                 break;
