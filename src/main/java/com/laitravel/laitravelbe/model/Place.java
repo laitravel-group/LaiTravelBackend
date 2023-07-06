@@ -1,14 +1,10 @@
 package com.laitravel.laitravelbe.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.Gson;
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
-import com.laitravel.laitravelbe.gson.GsonUtil;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
+import com.laitravel.laitravelbe.util.GsonUtil;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 

@@ -52,6 +52,7 @@ public class AppConfig {
                         auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/places").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/test").permitAll()
                                 .requestMatchers("/hello/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/login", "/register", "/logout").permitAll()
                                 .anyRequest().authenticated()

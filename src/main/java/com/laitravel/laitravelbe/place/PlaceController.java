@@ -1,5 +1,6 @@
 package com.laitravel.laitravelbe.place;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.laitravel.laitravelbe.api.GoogleCloudService;
 import com.laitravel.laitravelbe.model.Place;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +26,5 @@ public class PlaceController {
     public List<Place> getPlaces(@RequestParam(value="city") String city, @RequestParam(value="startDate") String startDate, @RequestParam(value="endDate") String endDate) {
         return placeService.placeSearch(city, startDate, endDate);
     }
-
-
-
 
 }

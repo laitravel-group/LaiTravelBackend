@@ -1,7 +1,6 @@
 package com.laitravel.laitravelbe.place;
 
 import com.google.maps.model.*;
-import com.google.storage.v2.BucketName;
 import com.laitravel.laitravelbe.api.GoogleCloudService;
 import com.laitravel.laitravelbe.api.GooglePlaceService;
 import com.laitravel.laitravelbe.db.CityRepository;
@@ -112,12 +111,10 @@ public class PlaceService {
             com.google.maps.model.OpeningHours.Period[] periods = placeDetails.openingHours != null ?
                     placeDetails.openingHours.periods : null;
             // get photo
-            // TODO
-            // save photo to gcs
             byte[] photoData = placeDetails.photos != null ?
                     googlePlaceApiService.getImageByReference(placeDetails.photos[0].photoReference) : null;
-            String mediaLink = googleCloudService.uploadImage(bucketName,placesSearchResult.placeId,photoData);
-
+            // save photo to gcs
+            String mediaLink = googleCloudService.uploadImage(bucketName, placesSearchResult.placeId,photoData);
 
 
             // places are added to database regardless valid or not
@@ -136,7 +133,6 @@ public class PlaceService {
                     openingHours);
             PlaceEntity newPlaceEntity = newPlace.toPlaceEntity();
             placeRepository.insertPlaceId(newPlaceEntity.placeId(), newPlace.cityId());
-            // System.out.println("inserted place id");
             placeRepository.save(newPlaceEntity);
 
 
@@ -185,8 +181,6 @@ public class PlaceService {
         return adj;
     }
 
-
-
     private boolean containsValidWeekDays(List<DayOfWeek> dayOfWeekList, List<OpeningHours> openingHours) {
         for (OpeningHours dayOpeningHours : openingHours) {
             if (dayOfWeekList.contains(dayOpeningHours.dayOfWeek())) {
@@ -203,15 +197,15 @@ public class PlaceService {
             for (int i = 1; i < 7; i++) {
                 openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
                         DayOfWeek.of(i),
-                        LocalTime.of(9, 0),
-                        LocalTime.of(18, 0)));
+                        "9:00",
+                        "18:00"));
             }
         } else {
             for (com.google.maps.model.OpeningHours.Period period : periods) {
                 openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
                         DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
-                        period.open.time,
-                        period.close != null ? period.close.time : LocalTime.of(18, 0)));
+                        period.open.time.format(DateTimeFormatter.ofPattern("HH:mm")),
+                        period.close != null ? period.close.time.format(DateTimeFormatter.ofPattern("HH:mm")) : "18:00"));
             }
         }
         return openingHours;

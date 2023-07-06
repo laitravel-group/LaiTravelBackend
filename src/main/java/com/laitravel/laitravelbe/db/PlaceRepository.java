@@ -1,13 +1,11 @@
 package com.laitravel.laitravelbe.db;
 
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
-import com.laitravel.laitravelbe.model.OpeningHours;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository

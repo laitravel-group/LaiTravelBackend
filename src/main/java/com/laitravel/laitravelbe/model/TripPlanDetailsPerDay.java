@@ -9,7 +9,7 @@ import java.util.List;
 public record TripPlanDetailsPerDay(
         Date date,
         @JsonProperty("start_location") Place startLocation,
-        @JsonProperty("start_time") Time startTime,
+        @JsonProperty("start_time") String startTime,
         List<PlaceVisitDetails> visits
 ) {
 }

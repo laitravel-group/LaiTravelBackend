@@ -1,10 +1,10 @@
 package com.laitravel.laitravelbe.db.entity;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.laitravel.laitravelbe.gson.GsonUtil;
-import com.laitravel.laitravelbe.model.TripPlan;
 import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
+import com.laitravel.laitravelbe.util.DateTimeUtils;
+import com.laitravel.laitravelbe.util.GsonUtil;
+import com.laitravel.laitravelbe.model.TripPlan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -22,10 +22,15 @@ public record TripPlanEntity(
         String details
 ) {
     public TripPlan toTripPlan(String cityName) {
-        return new TripPlan(tripId, cityId, cityName, startDate, endDate, GsonUtil.gson.fromJson(details, new TypeToken<List<String>>() {}.getType()));
+        return new TripPlan(tripId, cityId, cityName,
+                DateTimeUtils.dateTimestampToString(startDate),
+                DateTimeUtils.dateTimestampToString(endDate),
+                GsonUtil.gson.fromJson(details, new TypeToken<List<TripPlanDetailsPerDay>>() {}.getType()));
     }
 
     public TripPlan toTripPlanNoDetails(String cityName) {
-        return new TripPlan(tripId, cityId, cityName, startDate, endDate, null);
+        return new TripPlan(tripId, cityId, cityName,
+                DateTimeUtils.dateTimestampToString(startDate),
+                DateTimeUtils.dateTimestampToString(endDate), null);
     }
 }

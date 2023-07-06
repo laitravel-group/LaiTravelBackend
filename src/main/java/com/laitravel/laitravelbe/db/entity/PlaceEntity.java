@@ -2,7 +2,7 @@ package com.laitravel.laitravelbe.db.entity;
 
 
 import com.google.gson.reflect.TypeToken;
-import com.laitravel.laitravelbe.gson.GsonUtil;
+import com.laitravel.laitravelbe.util.GsonUtil;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
 import org.springframework.data.annotation.Id;

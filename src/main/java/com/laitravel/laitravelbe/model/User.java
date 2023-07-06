@@ -18,7 +18,8 @@ public record User(
     }
 
     public UserEntity toUserEntity() {
-        // TODO: change this to encrypt the password
+        // TODO
+        //  : change this to encrypt the password
         return new UserEntity(username, displayName, password, avatar);
     }
 
