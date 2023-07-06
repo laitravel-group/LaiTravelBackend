@@ -4,7 +4,6 @@ import com.google.common.reflect.TypeToken;
 import com.laitravel.laitravelbe.db.CityRepository;
 import com.laitravel.laitravelbe.db.TripRepository;
 import com.laitravel.laitravelbe.db.entity.TripPlanEntity;
-import com.laitravel.laitravelbe.model.Place;
 import com.laitravel.laitravelbe.model.TripPlan;
 import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
 import com.laitravel.laitravelbe.model.request.TripPlanBuildRequestBody;

@@ -66,9 +66,8 @@ public class PlaceService {
 
         String searchQuery = String.format("top travel spots in %s and vicinity", cityName);
         // use US standard date format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate startDate = LocalDate.parse(startDateString, formatter);
-        LocalDate endDate = LocalDate.parse(endDateString, formatter);
+        LocalDate startDate = DateTimeUtils.dateStringToLocalDate(startDateString);
+        LocalDate endDate = DateTimeUtils.dateStringToLocalDate(endDateString);
         // get what weekdays are in this trip
         List<DayOfWeek> dayOfWeekList = new ArrayList<>();
         LocalDate currentDate = startDate;

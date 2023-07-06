@@ -32,6 +32,15 @@ public class DateTimeUtils {
         }
     }
 
+    // Convert a date string of YYYY-MM-DD to LocalDate
+    public static LocalDate dateStringToLocalDate(String dateString) {
+        try {
+            return LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            // Handle invalid date format
+            throw new IllegalArgumentException("Invalid date format. Expected format: yyyy-MM-dd", e);
+        }
+    }
 
 
     // date time types to string
