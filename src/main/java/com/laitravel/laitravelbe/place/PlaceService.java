@@ -1,6 +1,8 @@
 package com.laitravel.laitravelbe.place;
 
 import com.google.maps.model.*;
+import com.google.storage.v2.BucketName;
+import com.laitravel.laitravelbe.api.GoogleCloudService;
 import com.laitravel.laitravelbe.api.GooglePlaceService;
 import com.laitravel.laitravelbe.db.CityRepository;
 import com.laitravel.laitravelbe.db.PlaceRepository;
@@ -8,6 +10,7 @@ import com.laitravel.laitravelbe.db.entity.CityEntity;
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -22,11 +25,21 @@ public class PlaceService {
     final GooglePlaceService googlePlaceApiService;
     final CityRepository cityRepository;
     final PlaceRepository placeRepository;
+    final GoogleCloudService googleCloudService;
+    final String bucketName;
 
-    public PlaceService(GooglePlaceService service, CityRepository cityRepository, PlaceRepository placeRepository) {
+    public PlaceService(
+            GooglePlaceService service,
+            CityRepository cityRepository,
+            PlaceRepository placeRepository,
+            GoogleCloudService googleCloudService,
+            @Value("${GCS.project-id}")  String bucketName) {
+
         this.googlePlaceApiService = service;
         this.cityRepository = cityRepository;
         this.placeRepository = placeRepository;
+        this.googleCloudService = googleCloudService;
+        this.bucketName = bucketName;
     }
 
 
@@ -103,6 +116,8 @@ public class PlaceService {
             // save photo to gcs
             byte[] photoData = placeDetails.photos != null ?
                     googlePlaceApiService.getImageByReference(placeDetails.photos[0].photoReference) : null;
+            String mediaLink = googleCloudService.uploadImage(bucketName,placesSearchResult.placeId,photoData);
+
 
 
             // places are added to database regardless valid or not
@@ -113,7 +128,7 @@ public class PlaceService {
                     city.cityId(),
                     placesSearchResult.geometry.location.lat,
                     placesSearchResult.geometry.location.lng,
-                    "",
+                    mediaLink,
                     List.of(placesSearchResult.types),
                     placesSearchResult.formattedAddress,
                     description,
