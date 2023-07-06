@@ -7,6 +7,6 @@ import java.util.List;
 
 public record TripPlanBuildResponseBody(
         Boolean updated,
-        @JsonProperty("proposed_plans") List<TripPlanDetailsPerDay> proposedPlans
+        @JsonProperty("proposed_plans") TripPlanDetailsPerDay proposedPlans
 ) {
 }
