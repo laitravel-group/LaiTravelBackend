@@ -9,12 +9,13 @@ import com.laitravel.laitravelbe.db.entity.CityEntity;
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
+import com.laitravel.laitravelbe.tripplan.TripPlanUtils;
+import com.laitravel.laitravelbe.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -147,7 +148,7 @@ public class PlaceService {
         return resultPlaces;
     }
 
-    public Map<Place, Map<Place,Integer>> getDistances(Place origin, List<Place> destinations) {
+    public Map<Place, Map<Place,Integer>> getPlaceTravelTimeMap(Place origin, List<Place> destinations) {
         Map<Place,Map<Place,Integer>> answer = new HashMap<>();
 
         destinations.add(0,origin);
@@ -206,8 +207,9 @@ public class PlaceService {
             for (com.google.maps.model.OpeningHours.Period period : periods) {
                 openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
                         DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
-                        period.open.time.format(DateTimeFormatter.ofPattern("HH:mm")),
-                        period.close != null ? period.close.time.format(DateTimeFormatter.ofPattern("HH:mm")) : "18:00"));
+                        DateTimeUtils.localTimeToString(period.open.time),
+                        period.close != null ?
+                                DateTimeUtils.localTimeToString(period.close.time) : "18:00"));
             }
         }
         return openingHours;

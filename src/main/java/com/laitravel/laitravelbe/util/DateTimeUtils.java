@@ -41,5 +41,14 @@ public class DateTimeUtils {
         return date.toLocalDateTime().toLocalDate().toString();
     }
 
+    // Convert a LocalTime of time to time string of HH:mm
+    public static String localTimeToString(LocalTime localTime) {
+        return localTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    public static String localDateToString(LocalDate localDate) {
+        return localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
 
 }

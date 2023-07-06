@@ -10,34 +10,33 @@ import java.util.List;
 
 
 @RestController
-public class TravelPlanController {
-    final TravelPlanService travelPlanService;
+public class TripPlanController {
+    final TripPlanService travelPlanService;
 
-
-    public TravelPlanController(TravelPlanService travelPlanService) {
+    public TripPlanController(TripPlanService travelPlanService) {
         this.travelPlanService = travelPlanService;
     }
 
     @GetMapping("/trip-plans")
-    public TripPlanListResponseBody getTripPlanList(@RequestParam(value="ownerId") String ownerId,  @RequestParam(value="cityName") String cityName) {
-        // TODO
-        // get list from DB
-        List<TripPlan> tripPlans = travelPlanService.getTripPlanList(ownerId, cityName);
+    public TripPlanListResponseBody getTripPlanList(@RequestParam(value="ownerId") String ownerId) {
+        List<TripPlan> tripPlans = travelPlanService.getTripPlanList(ownerId);
         return new TripPlanListResponseBody(tripPlans);
     }
 
     @GetMapping("/trip-plan-details")
-    public TripPlanDetailsResponseBody getTripPlanDetails(@RequestParam(value="tripId") String tripId) {
-        // TODO
-        // get details from DB given tripId
-        int tripIdInt = Integer.parseInt(tripId);
-        List<TripPlanDetailsPerDay> details = travelPlanService.getTripPlanDetails(tripIdInt);
+    public TripPlanDetailsResponseBody getTripPlanDetails(@RequestParam(value="tripId") Integer tripId) {
+        List<TripPlanDetailsPerDay> details = travelPlanService.getTripPlanDetails(tripId);
         return new TripPlanDetailsResponseBody(details);
+    }
+
+    @DeleteMapping("/trip-plan-delete")
+    public void deleteTripPlan(@RequestParam(value="tripId") String tripId) {
+        // delete the trip plan with tripId in DB
+        travelPlanService.deleteTripById(tripId);
     }
 
     @PostMapping("/trip-plan-build")
     public TripPlanBuildResponseBody buildRecommendedTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
-        // TODO
         // build a TripPlanBuildResponseBody with TripPlanDetailsPerDay
         return travelPlanService.buildRecommendedTripPlanPerDay(requestBody);
     }
@@ -49,17 +48,9 @@ public class TravelPlanController {
         return travelPlanService.updateTripPlanPerDay(requestBody);
     }
 
-    @DeleteMapping("/trip-plan-delete")
-    public void deleteTripPlan(@RequestParam(value="tripId") String tripId) {
-        // TODO
-        // delete the trip plan with tripId in DB
-        travelPlanService.deleteTripById(tripId);
-    }
-
     @PostMapping("/trip-plan-save")
-    public void saveTripPlan(@RequestParam(value="ownerId") String ownerId) {
-
-        travelPlanService.saveTripPlan(ownerId);
+    public void saveTripPlan(@RequestParam(value="ownerId") String ownerId, @RequestBody TripPlan tripPlan) {
+        travelPlanService.saveTripPlan(ownerId, tripPlan);
     }
 
 

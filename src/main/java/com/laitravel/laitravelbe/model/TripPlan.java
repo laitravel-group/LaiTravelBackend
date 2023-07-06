@@ -11,8 +11,8 @@ public record TripPlan(
         @JsonProperty("trip_id") String tripId,
         @JsonProperty("city_id") String cityId,
         @JsonProperty("destination_city") String destinationCity,
-        @JsonProperty("start_datetime") String startDate,
-        @JsonProperty("end_datetime") String endDate,
+        @JsonProperty("start_date") String startDate,
+        @JsonProperty("end_date") String endDate,
         List<TripPlanDetailsPerDay> details
 ) {
     public TripPlanEntity toTripPlanEntity(String ownerId) {
