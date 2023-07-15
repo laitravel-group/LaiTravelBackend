@@ -22,9 +22,5 @@ POST /user-edit
 
 ## Response Codes
 
-<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The action is successful.</td></tr><tr><td>401 Unauthorized</td><td>Failed to get user information because the token is either non-existent or invalid.</td></tr></tbody></table>
-
-## Response Body
-
-<table><thead><tr><th width="156">Field</th><th width="88.33333333333331">Type</th><th>Description</th></tr></thead><tbody><tr><td>username</td><td>String</td><td>The username of the user.</td></tr><tr><td>display_name</td><td>String</td><td>The display name of the user. It is what the website should call the user.</td></tr><tr><td>avatar</td><td>String</td><td>The url to the image of the user's avatar. It can be an empty string if the user has yet set an avatar.</td></tr><tr><td>error</td><td>String</td><td>The messge sent to indicate something went wrong. Empty if no error has occurred.</td></tr></tbody></table>
+<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The edit is successful.</td></tr><tr><td>400 Bad Request</td><td>Failed to edit user information because the some of the input fields have not met the requirements.</td></tr><tr><td>401 Unauthorized</td><td>Failed to edit user information because the token is either non-existent or invalid.</td></tr></tbody></table>
 
