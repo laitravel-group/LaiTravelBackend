@@ -18,7 +18,7 @@ GET /user
 
 ## Response Codes
 
-<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The action is successful.</td></tr><tr><td>401 Unauthorized</td><td>Failed to get user information because the token is either non-existent or invalid.</td></tr></tbody></table>
+<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The action is successful.</td></tr><tr><td>401 Unauthorized</td><td>Failed to get user information because the authorization token is either non-existent or invalid.</td></tr></tbody></table>
 
 ## Response Body
 

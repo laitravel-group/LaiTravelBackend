@@ -14,7 +14,7 @@ POST /signup
 
 ## Request Body
 
-<table><thead><tr><th width="161">Field</th><th width="88.33333333333331">Type</th><th>Description</th></tr></thead><tbody><tr><td>username</td><td>String</td><td>The username for the new user account. Also known as user id.</td></tr><tr><td>display_name</td><td>String</td><td>The display name for the new user account. It is what the website should call the user.</td></tr><tr><td>password</td><td>String</td><td>The password for the new user account.</td></tr></tbody></table>
+<table><thead><tr><th width="161">Field</th><th width="88.33333333333331">Type</th><th>Description</th></tr></thead><tbody><tr><td>username</td><td>String</td><td>The username for the new user account to login. Also known as user id.</td></tr><tr><td>display_name</td><td>String</td><td>The display name for the new user account. It is what the website should call the user.</td></tr><tr><td>password</td><td>String</td><td>The password for the new user account to login.</td></tr></tbody></table>
 
 ## Response Codes
 

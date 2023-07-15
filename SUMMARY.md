@@ -11,4 +11,5 @@
     * [Sign Up](reference/api-reference/user-api/sign-up.md)
     * [Get User Information](reference/api-reference/user-api/get-user-information.md)
     * [Edit User Information](reference/api-reference/user-api/edit-user-information.md)
+    * [Edit User Information](reference/api-reference/user-api/edit-user-information-1.md)
   * [Places](reference/api-reference/places.md)
