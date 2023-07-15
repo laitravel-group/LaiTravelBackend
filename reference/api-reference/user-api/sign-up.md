@@ -18,7 +18,7 @@ POST /signup
 
 ## Response Codes
 
-<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>201 Created</td><td>The sign up is successful.</td></tr><tr><td>409 Conflict</td><td>The sign up is failed because the username has already existed.</td></tr></tbody></table>
+<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>201 Created</td><td>The sign up is successful.</td></tr><tr><td>400 Bad Request</td><td>The request is incorrectly formatted.</td></tr><tr><td>409 Conflict</td><td>The sign up is failed because the username has already existed.</td></tr></tbody></table>
 
 ## Response Body
 

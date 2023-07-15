@@ -30,7 +30,7 @@ public List<Place> placeSearch(String cityName, String startDateString, String e
 
 ## Response Codes
 
-<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The data is successfully retrieved.</td></tr><tr><td>400 Bad Request</td><td>Failed to get places data because the city input does not exist or the dates are invalid or in incorrect format. </td></tr></tbody></table>
+<table data-full-width="false"><thead><tr><th>Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The data is successfully retrieved.</td></tr><tr><td>400 Bad Request</td><td><p>Failed to get places data, can be caused by one of the reasons: </p><ol><li>The city of input does not exist, or the parameter is missing</li><li>The dates are invalid, in incorrect format or missing.</li></ol></td></tr></tbody></table>
 
 ## Response Body
 
