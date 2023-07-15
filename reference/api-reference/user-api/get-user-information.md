@@ -6,6 +6,10 @@ description: Retrieve information of a user, the result will not contain a passw
 
 #### [.](./ "mention")<-
 
+## Description
+
+When logged in, you can retrieve username, display name and the image link of avatar of the current logged in user.&#x20;
+
 ## Authorization
 
 Require authorization token in the header.

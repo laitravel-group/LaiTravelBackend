@@ -1,8 +1,10 @@
 ---
-description: User API is to handle user creation, edit and authentication.
+description: Provides HTTP methods to handle user creation, edit and authentication.
 ---
 
 # User API
+
+[..](../ "mention")<-
 
 ## User Login
 
@@ -18,4 +20,8 @@ Create a new user account: [sign-up.md](sign-up.md "mention")
 
 ## Get User Information
 
-Retrieve information of a user, the result will not contain a password:&#x20;
+Retrieve information of a user, the result will not contain a password: [get-user-information.md](get-user-information.md "mention")
+
+## Edit User Information
+
+Edit the username, display name, password and upload image for avatar: [edit-user-information.md](edit-user-information.md "mention")
