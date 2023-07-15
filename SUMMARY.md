@@ -15,3 +15,4 @@
     * [Get Recommended Places](reference/api-reference/place-api/get-recommended-places.md)
   * [Trip Plan API](reference/api-reference/trip-plan-api/README.md)
     * [Get a List of Saved Trip Plans](reference/api-reference/trip-plan-api/get-a-list-of-saved-trip-plans.md)
+    * [Get Details of a Trip Plan](reference/api-reference/trip-plan-api/get-details-of-a-trip-plan.md)
