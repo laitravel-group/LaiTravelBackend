@@ -37,16 +37,20 @@ public class TripPlanController {
 
     @PostMapping("/trip-plan-build")
     public TripPlanBuildResponseBody buildRecommendedTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
-        //System.out.println(requestBody.desiredPlan().startLocation());
         // build a TripPlanBuildResponseBody with TripPlanDetailsPerDay
-        return travelPlanService.buildRecommendedTripPlanPerDay(requestBody);
+        return new TripPlanBuildResponseBody(false, travelPlanService.buildRecommendedTripPlanPerDay(requestBody.desiredPlan()));
     }
 
     @PostMapping("/trip-plan-build-update")
     public TripPlanBuildResponseBody validateAndUpdateTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
         // TODO
         // check if the input trip plan is valid and update it accordingly
-        return travelPlanService.updateTripPlanPerDay(requestBody);
+        TripPlanDetailsPerDay updatedPlan = travelPlanService.updateTripPlanPerDay(requestBody.desiredPlan());
+        if (updatedPlan == null) {
+            return new TripPlanBuildResponseBody(false, List.of(requestBody.desiredPlan()));
+        } else {
+            return new TripPlanBuildResponseBody(true, List.of(updatedPlan));
+        }
     }
 
     @PostMapping("/trip-plan-save")

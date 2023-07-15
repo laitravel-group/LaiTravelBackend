@@ -122,7 +122,7 @@ public class TripPlanBuilder {
         private PlaceVisitOrderHelper(Map<Place, Map<Place, Integer>> placeTravelTimeMap){
             this.placeTravelTimeMap = placeTravelTimeMap;
             this.placeToDetailsMap = new HashMap<>();
-            this.unvisitedPlacePQ = new PriorityQueue<>(Comparator.comparingLong(c -> c.travelTime));
+            this.unvisitedPlacePQ = new PriorityQueue<>(Comparator.comparingInt(c -> c.travelTime));
             this.unvisitedPlaceSet = new HashSet<>();
         }
 

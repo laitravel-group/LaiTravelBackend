@@ -9,14 +9,12 @@ import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
 import com.laitravel.laitravelbe.model.request.TripPlanBuildRequestBody;
 import com.laitravel.laitravelbe.model.response.TripPlanBuildResponseBody;
 import com.laitravel.laitravelbe.place.PlaceService;
-import com.laitravel.laitravelbe.util.DateTimeUtils;
 import com.laitravel.laitravelbe.util.GsonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,8 +51,7 @@ public class TripPlanService {
         }
     }
 
-    public TripPlanBuildResponseBody buildRecommendedTripPlanPerDay(TripPlanBuildRequestBody requestBody) {
-        TripPlanDetailsPerDay desiredPlan = requestBody.desiredPlan();
+    public List<TripPlanDetailsPerDay> buildRecommendedTripPlanPerDay(TripPlanDetailsPerDay desiredPlan) {
         if (desiredPlan == null) throw new IllegalArgumentException("Error! Null value is found in request, expected a trip plan.");
         // create a new trip plan per day
         // updated = false because this value is used to identify if the proposed plan and desired plan for
@@ -64,15 +61,11 @@ public class TripPlanService {
                 placeService.getPlaceTravelTimeMap(
                         desiredPlan.startLocation(),
                         desiredPlan.visits().stream().map(details->details.place).collect(Collectors.toCollection(ArrayList::new))));
-        TripPlanDetailsPerDay proposedPlan = tripPlanBuilder.calculateShortestPath();
-        return new TripPlanBuildResponseBody(false, List.of(proposedPlan));
+        return List.of(tripPlanBuilder.calculateShortestPath());
     }
 
-    public TripPlanBuildResponseBody updateTripPlanPerDay(TripPlanBuildRequestBody requestBody) {
-        TripPlanDetailsPerDay desiredPlan = requestBody.desiredPlan();
-
-        LocalTime startTime = DateTimeUtils.timeStringToLocalTime(desiredPlan.startTime());
-        LocalTime endTime = DateTimeUtils.timeStringToLocalTime(desiredPlan.endTime());
+    public TripPlanDetailsPerDay updateTripPlanPerDay(TripPlanDetailsPerDay desiredPlan) {
+        if (desiredPlan == null) throw new IllegalArgumentException("Error! Null value is found in request, expected a trip plan.");
         // try to connect place of visit in order and validate result
         TripPlanBuilder tripPlanBuilder = new TripPlanBuilder(
                 desiredPlan,
@@ -80,12 +73,12 @@ public class TripPlanService {
                         desiredPlan.startLocation(),
                         desiredPlan.visits().stream().map(details->details.place).toList()));
         TripPlanDetailsPerDay proposedPlan = tripPlanBuilder.autoPath();
-        // if the result did not change at all, return the same thing
+        // if the result did not change at all, return null
         if (proposedPlan.equals(desiredPlan)) {
-            return new TripPlanBuildResponseBody(false, List.of(desiredPlan));
+            return null;
         }
         else {
-            return new TripPlanBuildResponseBody(true, List.of(proposedPlan));
+            return proposedPlan;
         }
     }
 

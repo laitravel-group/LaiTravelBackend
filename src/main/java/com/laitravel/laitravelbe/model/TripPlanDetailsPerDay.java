@@ -13,7 +13,6 @@ public record TripPlanDetailsPerDay(
         @JsonProperty("start_location") Place startLocation,
         @JsonProperty("start_time") String startTime,
         @JsonProperty("end_time") String endTime,
-
         List<PlaceVisitDetails> visits
 ) {
 }

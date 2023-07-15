@@ -21,8 +21,7 @@ public record Place(
         @JsonProperty("formatted_address") String formattedAddress,
         String description,
         Float rating,
-        @JsonProperty("opening_hours")
-        List<OpeningHours> openingHours
+        @JsonProperty("opening_hours") List<OpeningHours> openingHours
 ) {
     public PlaceEntity toPlaceEntity() {
         return new PlaceEntity(placeId, placeName, cityId, lat, lng, photo, GsonUtil.gson.toJson(types), formattedAddress, description, rating, GsonUtil.gson.toJson(openingHours), new Timestamp(new Date().getTime()));

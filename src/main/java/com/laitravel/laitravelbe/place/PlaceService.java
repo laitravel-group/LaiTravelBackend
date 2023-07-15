@@ -165,7 +165,7 @@ public class PlaceService {
         return answer;
     }
 
-    Map<Place,Integer> getMap(Place origin,List<Place> destinations) {
+    private Map<Place,Integer> getMap(Place origin,List<Place> destinations) {
         Map<Place,Integer> adj = new HashMap<>();
         LatLng startLocation = new LatLng(origin.lat(), origin.lng());
         for (Place place:destinations) {

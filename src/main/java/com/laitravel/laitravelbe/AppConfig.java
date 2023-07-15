@@ -24,10 +24,9 @@ public class AppConfig {
 
     @Bean
     public GeoApiContext GeoApiContext(@Value("${google.map-key}") String mapKey){
-        GeoApiContext context = new GeoApiContext.Builder()
+        return new GeoApiContext.Builder()
                 .apiKey(mapKey)
                 .build();
-        return context;
     }
     @Bean
     public Storage storage(@Value("${GCS.project-id}") String projectID ) throws IOException {

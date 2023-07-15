@@ -10,6 +10,5 @@ public record OpeningHours(
         @JsonProperty("day_of_week") DayOfWeek dayOfWeek,
         @JsonProperty("open_time") String openTime,
         @JsonProperty("close_time") String closeTime
-
 ) {
 }
