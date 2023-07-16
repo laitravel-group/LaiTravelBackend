@@ -30,7 +30,7 @@ public List<TripPlan> getTripPlanList(String ownerId);
 
 ## Response Codes
 
-<table><thead><tr><th width="238">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>Successfully get a list of saved trip plans.</td></tr><tr><td>401 Unauthorized</td><td>Failed to get trip plans because the authorization token is either non-existent or invalid.</td></tr><tr><td>500 Internal Server Error</td><td>Failed to get trip plans because the server is experiencing some issues.</td></tr></tbody></table>
+<table><thead><tr><th width="238">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>Successfully retrieved a list of saved trip plans.</td></tr><tr><td>401 Unauthorized</td><td>Failed to get trip plans because the authorization token is either non-existent or invalid.</td></tr><tr><td>500 Internal Server Error</td><td>Failed to get trip plans because the server is experiencing some issues.</td></tr></tbody></table>
 
 ## Response Body
 

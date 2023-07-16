@@ -34,7 +34,7 @@ The first element in the pair represents the city id, the second element represe
 
 ## Response Codes
 
-<table data-full-width="false"><thead><tr><th>Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The data is successfully retrieved.</td></tr><tr><td>400 Bad Request</td><td><p>Failed to get places data, can be caused by one of the reasons: </p><ol><li>The city of input does not exist, or the parameter is missing</li><li>The dates are invalid, in incorrect format or missing.</li></ol></td></tr><tr><td>500 Internal Server Error</td><td>Failed to get places data because the server is experiencing some issues.</td></tr></tbody></table>
+<table data-full-width="false"><thead><tr><th>Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>Successfully retrieved the places data.</td></tr><tr><td>400 Bad Request</td><td><p>Failed to get places data, can be caused by one of the reasons: </p><ol><li>The city of input does not exist, or the parameter is missing</li><li>The dates are invalid, in incorrect format or missing.</li></ol></td></tr><tr><td>500 Internal Server Error</td><td>Failed to get places data because the server is experiencing some issues.</td></tr></tbody></table>
 
 ## Response Body
 

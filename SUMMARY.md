@@ -19,3 +19,4 @@
     * [Delete a Trip Plan](reference/api-reference/trip-plan-api/delete-a-trip-plan.md)
     * [Create a One-Day Trip Plan](reference/api-reference/trip-plan-api/create-a-one-day-trip-plan.md)
     * [Update a One-Day Trip Plan](reference/api-reference/trip-plan-api/update-a-one-day-trip-plan.md)
+    * [Save a Completed Trip Plan](reference/api-reference/trip-plan-api/save-a-completed-trip-plan.md)
