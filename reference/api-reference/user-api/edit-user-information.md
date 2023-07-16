@@ -26,4 +26,4 @@ POST /user-edit
 
 ## Response Codes
 
-<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The edit is successful.</td></tr><tr><td>400 Bad Request</td><td>Failed to edit user information because some of the fields do not meet the requirements or the request is incorrectly formatted.</td></tr><tr><td>401 Unauthorized</td><td>Failed to edit user information because the authorization token is either non-existent or invalid.</td></tr></tbody></table>
+<table><thead><tr><th width="237">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The edit is successful.</td></tr><tr><td>400 Bad Request</td><td>Failed to edit user information because some of the fields do not meet the requirements or the request is incorrectly formatted.</td></tr><tr><td>401 Unauthorized</td><td>Failed to edit user information because the authorization token is either non-existent or invalid.</td></tr><tr><td>500 Internal Server Error</td><td>Failed to edit user information because the server is experiencing some issues.</td></tr></tbody></table>

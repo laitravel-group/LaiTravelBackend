@@ -1,0 +1,46 @@
+---
+description: Update and validate a trip plan of user's choice.
+---
+
+# Update a One-Day Trip Plan
+
+[.](./ "mention")<-
+
+## Description
+
+Using this API, you can submit a detailed trip plan, either a user-defined or one based on [create-a-one-day-trip-plan.md](create-a-one-day-trip-plan.md "mention"). The System can check whether this plan is possible, for example, whether time is sufficient or the place is opened at the time of visit. If the plan is possible and it did not change at all, the response will indicate no change has been made. If the plan is possible but the travel time is recalculated, the response will indicate the plan is updated. If the plan is impossible, the system will automatically remove the last place to visit until the plan is possible, the user then have a choice to re-plan the trip.
+
+## URL
+
+```
+POST /trip-plan-build-update
+```
+
+## Java Method
+
+### `PlaceService.java`
+
+```java
+public TripPlanDetailsPerDay updateTripPlanPerDay(TripPlanDetailsPerDay desiredPlan);
+```
+
+## Request Body
+
+<table><thead><tr><th width="181">Field</th><th width="98.33333333333331">Type</th><th>Description</th></tr></thead><tbody><tr><td>desired_plan</td><td>Object</td><td>Describes a one-day trip plan where the user decides what the starting location and time is, what places to visit and how long for each place. If it contains details of start and end time of each place, it will also be validated.</td></tr><tr><td>   date</td><td>String</td><td>The date of the trip plan, must be in "yyyy-MM-dd" format.</td></tr><tr><td>   start_location</td><td>Object</td><td>A place object representing the starting location of the day, for example can be the hotel the user stay will stay at.</td></tr><tr><td>      place_id</td><td>String</td><td>The id of the starting location. If presented, it should use the same place id from Google API. <strong>This is optional.</strong></td></tr><tr><td>      place_name</td><td>String</td><td>The name of the starting location. <strong>This is optional.</strong></td></tr><tr><td>      lat</td><td>Double</td><td>The latitude of the starting location</td></tr><tr><td>      lng</td><td>Double</td><td>The longitude of the starting location</td></tr><tr><td>   start_time</td><td>String</td><td>The time of departure from the starting location, in "HH:mm" format.</td></tr><tr><td>   visits</td><td>Object[]</td><td>Contins a list of objects, each represents a place the user wishes to visit on the day, as well as the time the user want to spend at the place.</td></tr><tr><td>      place</td><td>Object</td><td>The place object, can be an arbitrary location on the map thus only the latitude and longitude are required at minimum.</td></tr><tr><td>         place_id</td><td>String</td><td>The id of the place. It uses the same place id from Google API. <strong>This is optional.</strong></td></tr><tr><td>         place_name</td><td>String</td><td>The name of the place. <strong>This is optional.</strong></td></tr><tr><td>         lat</td><td>Double</td><td>The latitude of the place.</td></tr><tr><td>         lng</td><td>Double</td><td>The longitude of the place.</td></tr><tr><td>      travel_time</td><td>Integer</td><td>The approximate time in minutes to travel from previous place to this place. If this is the first visit in the list, this represents the time to travel from starting location to this place. The system only check if this value exist or should be updated. If the value does not exist, the system will estimate the travel time. If this value exist and the plan does not need an update, this value will be kept and sent back in the response.</td></tr><tr><td>      start_time</td><td>String</td><td>The time of arrival at the place, in "HH:mm" format. <strong>This is optional.</strong> If this field is missing,  it will be calculated using travel time.</td></tr><tr><td>      end_time</td><td>String</td><td>The time of leaving the place, in "HH:mm" format. Must be after start time. <strong>This is optional.</strong> If this field is missing and start time presents, the system can calculate it.</td></tr><tr><td>      stay_duration</td><td>Integer</td><td>The time in minutes that the user wants to spend at the place. It should be equals to the time elapsed since arrival until leaving, otherwise the system will try to update it according to start and end time.</td></tr></tbody></table>
+
+## Response Codes
+
+<table><thead><tr><th width="238">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>Successfully validate and update a one-day trip plan.</td></tr><tr><td>400 Bad Request</td><td>Failed to update a trip plan because the request body is incorrectly formatted or contains invalid data.</td></tr><tr><td>500 Internal Server Error</td><td>Failed to update a trip plan because the server is experiencing some issues.</td></tr></tbody></table>
+
+## Response Body
+
+<table><thead><tr><th width="181">Field</th><th width="98.33333333333331">Type</th><th>Description</th></tr></thead><tbody><tr><td>updated</td><td>Boolean</td><td>Whether or not this proposed plan is the same as desired plan in the request.</td></tr><tr><td>proposed_plan</td><td>Object</td><td>The trip plan according to the user's preference. If updated, it indicates that something is updated compared to the desired plan in the request.</td></tr><tr><td>   date</td><td>String</td><td>The date of the trip plan, in "yyyy-MM-dd" format.</td></tr><tr><td>   start_location</td><td>Object</td><td>A place object representing the starting location of the day, for example can be the hotel the user stay will stay at.</td></tr><tr><td>      place_id</td><td>String</td><td>The id of the starting location. It uses the same place id from Google API. This maybe missing for an arbitrary location.</td></tr><tr><td>      place_name</td><td>String</td><td>The name of the starting location. This maybe missing for an arbitrary location.</td></tr><tr><td>      lat</td><td>Double</td><td>The latitude of the starting location</td></tr><tr><td>      lng</td><td>Double</td><td>The longitude of the starting location</td></tr><tr><td>   start_time</td><td>String</td><td>The time of departure from the starting location, in "HH:mm" format.</td></tr><tr><td>   visits</td><td>Object[]</td><td>Contins a list of objects, each represents a place to visit on the day, as well as details of the visit such as the time the user want to spend at the place.</td></tr><tr><td>      place</td><td>Object</td><td>The place the user want to visit, containing essential information of the place. Other information not listed below may exist but it is not recommended to use here.</td></tr><tr><td>         place_id</td><td>String</td><td>The id of the place. It uses the same place id from Google API. This maybe missing for an arbitrary location.</td></tr><tr><td>         place_name</td><td>String</td><td>The name of the place. This maybe missing for an arbitrary location.</td></tr><tr><td>         lat</td><td>Double</td><td>The latitude of the place.</td></tr><tr><td>         lng</td><td>Double</td><td>The longitude of the place.</td></tr><tr><td>      travel_time</td><td>Integer</td><td>The approximate time in minutes to travel from previous place to this place. If this is the first visit in the list, this represents the time to travel from starting location to this place.</td></tr><tr><td>      start_time</td><td>String</td><td>The time of arrival at the place, in "HH:mm" format.</td></tr><tr><td>      end_time</td><td>String</td><td>The time of leaving the place, in "HH:mm" format.</td></tr><tr><td>      stay_duration</td><td>Integer</td><td>The time in minutes that the user wants to spend at the place. It equals to the time elapsed since arrival until leaving.</td></tr></tbody></table>
+
+## Relevant Java Objects
+
+### `TripPlanDetailsPerDay.java`
+
+{% hint style="info" %}
+The code can be found at [#tripplandetailsperday.java](get-details-of-a-trip-plan.md#tripplandetailsperday.java "mention").
+{% endhint %}
+

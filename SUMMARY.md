@@ -17,3 +17,5 @@
     * [Get a List of Saved Trip Plans](reference/api-reference/trip-plan-api/get-a-list-of-saved-trip-plans.md)
     * [Get Details of a Trip Plan](reference/api-reference/trip-plan-api/get-details-of-a-trip-plan.md)
     * [Delete a Trip Plan](reference/api-reference/trip-plan-api/delete-a-trip-plan.md)
+    * [Create a One-Day Trip Plan](reference/api-reference/trip-plan-api/create-a-one-day-trip-plan.md)
+    * [Update a One-Day Trip Plan](reference/api-reference/trip-plan-api/update-a-one-day-trip-plan.md)

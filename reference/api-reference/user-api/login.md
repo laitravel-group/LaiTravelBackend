@@ -18,7 +18,7 @@ POST /login
 
 ## Response Codes
 
-<table><thead><tr><th width="191">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The login is successful.</td></tr><tr><td>400 Bad Request</td><td>The request is incorrectly formatted.</td></tr><tr><td>401 Unauthorized</td><td>The login credentials are incorrect.</td></tr></tbody></table>
+<table><thead><tr><th width="237">Code</th><th>Description</th></tr></thead><tbody><tr><td>200 OK</td><td>The login is successful.</td></tr><tr><td>400 Bad Request</td><td>Failed to login because the request is incorrectly formatted.</td></tr><tr><td>401 Unauthorized</td><td>Failed to login because the login credentials are incorrect.</td></tr><tr><td>500 Internal Server Error</td><td>Failed to login because the server is experiencing some issues.</td></tr></tbody></table>
 
 ## Response Body
 

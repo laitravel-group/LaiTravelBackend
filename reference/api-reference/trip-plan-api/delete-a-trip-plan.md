@@ -4,6 +4,8 @@ description: Delete a trip plan given the trip id.
 
 # Delete a Trip Plan
 
+[.](./ "mention")<-
+
 ## Description
 
 When logged in, you can delete a saved trip plan that belongs to the logged in user. You cannot delete any trip plan that belongs to other users.
