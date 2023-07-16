@@ -2,10 +2,8 @@ package com.laitravel.laitravelbe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.laitravel.laitravelbe.tripplan.TripPlanUtils;
 import com.laitravel.laitravelbe.util.DateTimeUtils;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

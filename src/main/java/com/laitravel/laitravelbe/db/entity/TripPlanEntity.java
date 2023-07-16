@@ -21,6 +21,7 @@ public record TripPlanEntity(
         Timestamp endDate,
         String details
 ) {
+    @SuppressWarnings("unused")
     public TripPlan toTripPlan(String cityName) {
         return new TripPlan(tripId, cityId, cityName,
                 DateTimeUtils.dateTimestampToString(startDate),

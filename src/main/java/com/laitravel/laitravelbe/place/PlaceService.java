@@ -9,14 +9,13 @@ import com.laitravel.laitravelbe.db.entity.CityEntity;
 import com.laitravel.laitravelbe.db.entity.PlaceEntity;
 import com.laitravel.laitravelbe.model.OpeningHours;
 import com.laitravel.laitravelbe.model.Place;
-import com.laitravel.laitravelbe.tripplan.TripPlanUtils;
 import com.laitravel.laitravelbe.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +42,7 @@ public class PlaceService {
     }
 
 
-    public List<Place> placeSearch(String cityName, String startDateString, String endDateString) {
+    public Pair<String, List<Place>> placeSearch(String cityName, String startDateString, String endDateString) {
         // return result
         List<Place> resultPlaces = new ArrayList<>();
 
@@ -57,15 +56,16 @@ public class PlaceService {
             PlacesSearchResult[] citySearchResult = googlePlaceApiService.textSearchQuery(cityName);
             city = (citySearchResult != null && citySearchResult.length != 0) ?
                     new CityEntity(citySearchResult[0].placeId, citySearchResult[0].name) : null;
-            if (city != null && cityRepository.findByCityId(city.cityId()) == null) {
+            if (city == null) {
+                return Pair.of("", resultPlaces);
+            }
+            if (cityRepository.findByCityId(city.cityId()) == null) {
                 cityRepository.insertCity(city.cityId(), city.cityName());
-            } else {
-                return resultPlaces;
             }
         }
 
         String searchQuery = String.format("top travel spots in %s and vicinity", cityName);
-        // use US standard date format
+        // use yyyy-MM-dd format
         LocalDate startDate = DateTimeUtils.dateStringToLocalDate(startDateString);
         LocalDate endDate = DateTimeUtils.dateStringToLocalDate(endDateString);
         // get what weekdays are in this trip
@@ -79,9 +79,6 @@ public class PlaceService {
                 break;
             }
         }
-
-
-
         // check if the place data and is recent enough (within 3 months)
         List<PlaceEntity> placeEntities = placeRepository.findByCityId(city.cityId());
         if (!placeEntities.isEmpty()) {
@@ -89,15 +86,14 @@ public class PlaceService {
             long now = new Date().getTime();
             long diff = TimeUnit.MILLISECONDS.toDays(now - lastUpdated);
             if (!placeEntities.isEmpty() && diff < 90) {
-                return placeEntities.stream().map(PlaceEntity::toPlace).toList();
+                return Pair.of(city.cityId(), placeEntities.stream().map(PlaceEntity::toPlace).toList());
             }
         }
-
 
         // use api to search places
         PlacesSearchResult[] placesSearchResults = googlePlaceApiService.textSearchQuery(searchQuery);
         if (placesSearchResults == null || placesSearchResults.length == 0) {
-            return resultPlaces;
+            return Pair.of(city.cityId(), resultPlaces);
         }
         // sort place in rating
         Arrays.sort(placesSearchResults, (place1, place2) -> Float.compare(place2.rating, place1.rating));
@@ -144,7 +140,7 @@ public class PlaceService {
             }
         }
 
-        return resultPlaces;
+        return Pair.of(city.cityId(), resultPlaces);
     }
 
     public Map<Place, Map<Place,Integer>> getPlaceTravelTimeMap(Place origin, List<Place> destinations) {

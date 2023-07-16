@@ -72,6 +72,8 @@ public class TripPlanBuilder {
                 DateTimeUtils.localTimeToString(endTime), proposedDetails);
     }
 
+    // TODO
+    // NEED CHECKING
     public TripPlanDetailsPerDay autoPath() {
 
         LocalDate date = LocalDate.parse(desiredPlan.date());
@@ -107,7 +109,7 @@ public class TripPlanBuilder {
 
     }
 
-    private class PlaceVisitOrderHelper {
+    private static class PlaceVisitOrderHelper {
         public Map<Place, Map<Place, Integer>> placeTravelTimeMap;
 
         // Use to map Place back to PlaceVisitDetails

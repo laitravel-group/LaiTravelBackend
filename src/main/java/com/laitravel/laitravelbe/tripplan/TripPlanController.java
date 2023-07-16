@@ -5,6 +5,7 @@ import com.laitravel.laitravelbe.model.request.TripPlanBuildRequestBody;
 import com.laitravel.laitravelbe.model.response.TripPlanBuildResponseBody;
 import com.laitravel.laitravelbe.model.response.TripPlanDetailsResponseBody;
 import com.laitravel.laitravelbe.model.response.TripPlanListResponseBody;
+import com.laitravel.laitravelbe.model.response.TripPlanUpdateResponseBody;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -38,18 +39,18 @@ public class TripPlanController {
     @PostMapping("/trip-plan-build")
     public TripPlanBuildResponseBody buildRecommendedTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
         // build a TripPlanBuildResponseBody with TripPlanDetailsPerDay
-        return new TripPlanBuildResponseBody(false, travelPlanService.buildRecommendedTripPlanPerDay(requestBody.desiredPlan()));
+        return new TripPlanBuildResponseBody(travelPlanService.buildRecommendedTripPlanPerDay(requestBody.desiredPlan()));
     }
 
     @PostMapping("/trip-plan-build-update")
-    public TripPlanBuildResponseBody validateAndUpdateTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
+    public TripPlanUpdateResponseBody validateAndUpdateTripPlan(@RequestBody TripPlanBuildRequestBody requestBody) {
         // TODO
         // check if the input trip plan is valid and update it accordingly
         TripPlanDetailsPerDay updatedPlan = travelPlanService.updateTripPlanPerDay(requestBody.desiredPlan());
         if (updatedPlan == null) {
-            return new TripPlanBuildResponseBody(false, List.of(requestBody.desiredPlan()));
+            return new TripPlanUpdateResponseBody(false, requestBody.desiredPlan());
         } else {
-            return new TripPlanBuildResponseBody(true, List.of(updatedPlan));
+            return new TripPlanUpdateResponseBody(true, updatedPlan);
         }
     }
 

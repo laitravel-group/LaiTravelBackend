@@ -31,6 +31,7 @@ public class RegisterService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // TODO
     public String registerUser(String userID, String displayName, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         User user = new User(userID, displayName, encodedPassword, "");

@@ -1,7 +1,6 @@
 package com.laitravel.laitravelbe.db;
 
 import com.laitravel.laitravelbe.db.entity.TripPlanEntity;
-import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;

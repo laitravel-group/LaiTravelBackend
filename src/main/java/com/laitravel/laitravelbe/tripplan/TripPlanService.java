@@ -6,8 +6,6 @@ import com.laitravel.laitravelbe.db.TripRepository;
 import com.laitravel.laitravelbe.db.entity.TripPlanEntity;
 import com.laitravel.laitravelbe.model.TripPlan;
 import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
-import com.laitravel.laitravelbe.model.request.TripPlanBuildRequestBody;
-import com.laitravel.laitravelbe.model.response.TripPlanBuildResponseBody;
 import com.laitravel.laitravelbe.place.PlaceService;
 import com.laitravel.laitravelbe.util.GsonUtil;
 import org.jetbrains.annotations.NotNull;
