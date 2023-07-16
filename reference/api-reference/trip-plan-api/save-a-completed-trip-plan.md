@@ -8,7 +8,7 @@ description: Save a completed trip plan of multiple days.
 
 ## Description
 
-When logged in, you can save a completed trip plan composed of one or more one-day trip plans. Each trip plan must be either from [create-a-one-day-trip-plan.md](create-a-one-day-trip-plan.md "mention") or [update-a-one-day-trip-plan.md](update-a-one-day-trip-plan.md "mention").
+When logged in, you can save a completed trip plan composed of one or more one-day trip plans. Each trip plan must be either from [create-an-one-day-trip-plan.md](create-an-one-day-trip-plan.md "mention") or [update-an-one-day-trip-plan.md](update-an-one-day-trip-plan.md "mention").
 
 ## Authorization
 
@@ -45,6 +45,6 @@ This is subject to change due to incompleteness of the user system.
 ### `TripPlan.java`
 
 {% hint style="info" %}
-The code can be found at [#tripplan.java](get-a-list-of-saved-trip-plans.md#tripplan.java "mention"), however, **details** must be filled in correctly according to [create-a-one-day-trip-plan.md](create-a-one-day-trip-plan.md "mention") or [update-a-one-day-trip-plan.md](update-a-one-day-trip-plan.md "mention")
+The code can be found at [#tripplan.java](get-a-list-of-saved-trip-plans.md#tripplan.java "mention"), however, **details** must be filled in correctly according to [create-an-one-day-trip-plan.md](create-an-one-day-trip-plan.md "mention") or [update-an-one-day-trip-plan.md](update-an-one-day-trip-plan.md "mention")
 {% endhint %}
 

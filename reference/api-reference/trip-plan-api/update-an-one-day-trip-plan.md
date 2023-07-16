@@ -2,13 +2,13 @@
 description: Update and validate a trip plan of user's choice.
 ---
 
-# Update a One-Day Trip Plan
+# Update an One-Day Trip Plan
 
 [.](./ "mention")<-
 
 ## Description
 
-Using this API, you can submit a detailed trip plan, either a user-defined or one based on [create-a-one-day-trip-plan.md](create-a-one-day-trip-plan.md "mention"). The System can check whether this plan is possible, for example, whether time is sufficient or the place is opened at the time of visit. If the plan is possible and it did not change at all, the response will indicate no change has been made. If the plan is possible but the travel time is recalculated, the response will indicate the plan is updated. If the plan is impossible, the system will automatically remove the last place to visit until the plan is possible, the user then have a choice to re-plan the trip.
+Using this API, you can submit a detailed trip plan, either a user-defined or one based on [create-an-one-day-trip-plan.md](create-an-one-day-trip-plan.md "mention"). The System can check whether this plan is possible, for example, whether time is sufficient or the place is opened at the time of visit. If the plan is possible and it did not change at all, the response will indicate no change has been made. If the plan is possible but the travel time is recalculated, the response will indicate the plan is updated. If the plan is impossible, the system will automatically remove the last place to visit until the plan is possible, the user then have a choice to re-plan the trip.
 
 ## URL
 
