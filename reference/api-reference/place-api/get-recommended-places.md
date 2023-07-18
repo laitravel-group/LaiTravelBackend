@@ -20,9 +20,8 @@ GET /places
 
 ### `PlaceService.java`
 
-```java
-public Pair<String, List<Place>> placeSearch(String cityName, String startDateString, String endDateString);
-```
+<pre class="language-java"><code class="lang-java"><strong>public Pair&#x3C;String, List&#x3C;Place>> placeSearch(String cityName, String startDateString, String endDateString);
+</strong></code></pre>
 
 {% hint style="info" %}
 The first element in the pair represents the city id, the second element represents the list of places of famous travel spots.
