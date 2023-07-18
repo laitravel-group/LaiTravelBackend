@@ -13,25 +13,29 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
+	// Google
 	implementation 'com.google.maps:google-maps-services:2.2.0'
+	implementation platform('com.google.cloud:libraries-bom:26.18.0')
+	implementation 'com.google.cloud:google-cloud-storage'
+	implementation 'com.google.code.gson:gson:2.10.1'
 
 	// User Auth
 	implementation 'com.auth0:java-jwt:4.4.0'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	// SQL
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	// Spring
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	runtimeOnly 'com.h2database:h2' // In-memory database for testing
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

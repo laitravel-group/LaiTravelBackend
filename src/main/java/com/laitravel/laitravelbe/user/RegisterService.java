@@ -2,6 +2,8 @@ package com.laitravel.laitravelbe.user;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.laitravel.laitravelbe.db.UserRepository;
+import com.laitravel.laitravelbe.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,10 +31,11 @@ public class RegisterService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String registerUser(String userID, String displayName, String password, String avatar) {
+    // TODO
+    public String registerUser(String userID, String displayName, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(userID, displayName, encodedPassword, avatar);
-        userRepository.save(user);
+        User user = new User(userID, displayName, encodedPassword, "");
+        userRepository.save(user.toUserEntity());
         return generateJwtToken(userID);
     }
 

@@ -20,9 +20,9 @@ public class RegisterController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerUser(@RequestBody String userID, String password, String displayName, String avatar) {
+    public ResponseEntity<String> registerUser(@RequestBody String userID, String password, String displayName) {
         try {
-            registerService.registerUser(userID, password, displayName, avatar);
+            registerService.registerUser(userID, password, displayName);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user.");
