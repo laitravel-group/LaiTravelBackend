@@ -1,5 +1,6 @@
 package com.laitravel.laitravelbe.user;
 
+import com.laitravel.laitravelbe.auth.AuthenticationRequest;
 import com.laitravel.laitravelbe.auth.AuthenticationResponse;
 import com.laitravel.laitravelbe.auth.AuthenticationService;
 import com.laitravel.laitravelbe.model.request.UserEditRequestBody;
@@ -24,6 +25,13 @@ public class RegisterController {
     @PostMapping("/register")
     public AuthenticationResponse registerUser(@RequestBody UserEditRequestBody body) {
         return authenticationService.register(body);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
 

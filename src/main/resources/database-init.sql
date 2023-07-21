@@ -1,12 +1,12 @@
-#DROP TABLE IF EXISTS trip_plan;
-#DROP TABLE IF EXISTS place;
-#DROP TABLE IF EXISTS user;
-#DROP TABLE IF EXISTS city;
+# DROP TABLE IF EXISTS trip_plan;
+# DROP TABLE IF EXISTS place;
+# DROP TABLE IF EXISTS users;
+# DROP TABLE IF EXISTS city;
 
-CREATE TABLE IF NOT EXISTS user (
-                       user_id      VARCHAR(64) NOT NULL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS users (
+                       username     VARCHAR(64) NOT NULL PRIMARY KEY,
                        password     VARCHAR(255) NOT NULL,
-                       display_name VARCHAR(32) NOT NULL,
+                       display_name VARCHAR(32),
                        avatar       TEXT,
                        enabled  TINYINT      NOT NULL DEFAULT 1
 );
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS trip_plan (
                       start_date TIMESTAMP NOT NULL,
                       end_date   TIMESTAMP NOT NULL,
                       details    TEXT,
-                      FOREIGN KEY (owner_id) REFERENCES user(user_id) ON DELETE CASCADE,
+                      FOREIGN KEY (owner_id) REFERENCES users(username) ON DELETE CASCADE,
                       FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -41,4 +41,12 @@ CREATE TABLE IF NOT EXISTS place (
                        opening_hours        TEXT,
                        last_updated         TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                        FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS authorities
+(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username  VARCHAR(50) NOT NULL,
+    authority VARCHAR(50) NOT NULL,
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
