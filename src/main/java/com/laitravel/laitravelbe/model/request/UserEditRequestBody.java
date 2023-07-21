@@ -7,6 +7,6 @@ public record UserEditRequestBody(
         String username,
         @JsonProperty("display_name") String displayName,
         String password,
-        MultipartFile avatar
+        String avatar
 ) {
 }

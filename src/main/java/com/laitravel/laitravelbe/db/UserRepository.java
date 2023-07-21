@@ -16,6 +16,7 @@ public interface UserRepository extends ListCrudRepository<UserEntity, String> {
 
     UserEntity findByUserId(String userId);
 
+
     @Modifying
     @Query("UPDATE user SET display_name = :displayName, avatar = :avatar WHERE user_id = :userId")
     void updateNameByUserId(String userId, String displayName, String avatar);

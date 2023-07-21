@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS user (
                        user_id      VARCHAR(64) NOT NULL PRIMARY KEY,
                        password     VARCHAR(255) NOT NULL,
                        display_name VARCHAR(32) NOT NULL,
-                       avatar       TEXT
+                       avatar       TEXT,
+                       enabled  TINYINT      NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS city (

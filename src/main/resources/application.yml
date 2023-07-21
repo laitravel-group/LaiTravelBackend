@@ -11,9 +11,10 @@ GCS:
   bucket-name: laitravel-bucket
 
 
-jwt:
-  secret: "LaiTravel666"
-  expirationHours: 3600
+jwtService:
+  key: 1a777e1124909e571fb59556076b9f859681e3c45d9f95c99688a004f98e9dfe
+
+
 
 spring:
   jackson:

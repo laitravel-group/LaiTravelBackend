@@ -3,15 +3,28 @@ package com.laitravel.laitravelbe;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.maps.GeoApiContext;
+import com.laitravel.laitravelbe.auth.jwt.JwtAuthenticationFilter;
+import com.laitravel.laitravelbe.db.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class AppConfig {
@@ -31,37 +44,11 @@ public class AppConfig {
                 .getService();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers(HttpMethod.GET, "/places","/trip-plans", "trip-plan-details").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/trip-plan-build", "/trip-plan-build-update", "/trip-plan-save").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/trip-plan-delete").permitAll()
-                                .requestMatchers("/hello/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/login", "/register", "/logout","/trip-plan-build").permitAll()
-                                .anyRequest().authenticated()
-                );
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//                .and()
-//                .formLogin()
-//                .successHandler((req, res, auth) -> res.setStatus(HttpStatus.NO_CONTENT.value()))
-//                .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-//                .and()
-//                .logout()
-//                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT));
-        return http.build();
+    UserDetailsManager users(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
     }
-
 
 
 }
