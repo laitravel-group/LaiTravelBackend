@@ -3,6 +3,7 @@
 # DROP TABLE IF EXISTS users;
 # DROP TABLE IF EXISTS city;
 
+
 CREATE TABLE IF NOT EXISTS users (
                        username     VARCHAR(64) NOT NULL PRIMARY KEY,
                        password     VARCHAR(255) NOT NULL,
