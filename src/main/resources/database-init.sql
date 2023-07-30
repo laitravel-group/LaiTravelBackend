@@ -1,12 +1,12 @@
-#DROP TABLE IF EXISTS trip_plan;
-#DROP TABLE IF EXISTS place;
-#DROP TABLE IF EXISTS user;
-#DROP TABLE IF EXISTS city;
+DROP TABLE IF EXISTS trip_plan;
+DROP TABLE IF EXISTS place;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS city;
 
 CREATE TABLE IF NOT EXISTS user (
-                       user_id      VARCHAR(64) NOT NULL PRIMARY KEY,
+                       user_id      VARCHAR(255) NOT NULL PRIMARY KEY,
                        password     VARCHAR(255) NOT NULL,
-                       display_name VARCHAR(32) NOT NULL,
+                       display_name VARCHAR(255) NOT NULL,
                        avatar       TEXT
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS city (
 
 CREATE TABLE IF NOT EXISTS trip_plan (
                       trip_id    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                      owner_id   VARCHAR(64) NOT NULL,
+                      owner_id   VARCHAR(255) NOT NULL,
                       city_id    VARCHAR(255) NOT NULL,
                       start_date TIMESTAMP NOT NULL,
                       end_date   TIMESTAMP NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS trip_plan (
 
 CREATE TABLE IF NOT EXISTS place (
                        place_id             VARCHAR(255) NOT NULL PRIMARY KEY,
-                       place_name           VARCHAR(50),
+                       place_name           VARCHAR(255),
                        city_id              VARCHAR(255) NOT NULL,
                        lat                  DOUBLE,
                        lng                  DOUBLE,
