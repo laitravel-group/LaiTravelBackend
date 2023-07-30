@@ -200,7 +200,7 @@ public class PlaceService {
             }
         } else {
             for (com.google.maps.model.OpeningHours.Period period : periods) {
-                openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
+                openingHours.add(new OpeningHours(
                         DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
                         DateTimeUtils.localTimeToString(period.open.time),
                         period.close != null ?
