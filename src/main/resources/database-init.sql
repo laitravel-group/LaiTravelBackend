@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
                        display_name VARCHAR(255),
                        avatar       TEXT,
                        enabled  TINYINT      NOT NULL DEFAULT 1
+
 );
 
 CREATE TABLE IF NOT EXISTS city (

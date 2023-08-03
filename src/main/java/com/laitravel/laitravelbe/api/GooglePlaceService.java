@@ -57,7 +57,7 @@ public class GooglePlaceService {
     public byte[] getImageByReference(String photoReference) {
         PhotoRequest request = new PhotoRequest(context);
         try {
-            ImageResult image = request.maxHeight(800).maxWidth(600).photoReference(photoReference).await();
+            ImageResult image = request.maxWidth(1920).maxHeight(1080).photoReference(photoReference).await();
             return image.imageData;
         } catch (Exception e) {
             throw new RuntimeException(e);
