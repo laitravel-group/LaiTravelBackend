@@ -13,21 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
 public class RegisterController {
-
     private final AuthenticationService authenticationService;
 
     public RegisterController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public AuthenticationResponse registerUser(@RequestBody UserEditRequestBody body) {
         return authenticationService.register(body);
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {

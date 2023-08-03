@@ -1,10 +1,7 @@
 package com.laitravel.laitravelbe.auth;
 
-import com.laitravel.laitravelbe.auth.AuthenticationRequest;
-import com.laitravel.laitravelbe.auth.AuthenticationResponse;
 import com.laitravel.laitravelbe.auth.jwt.JwtService;
 import com.laitravel.laitravelbe.db.UserRepository;
-import com.laitravel.laitravelbe.db.entity.UserEntity;
 import com.laitravel.laitravelbe.model.request.UserEditRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,4 +48,30 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+    public String extractToken(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
+        return authHeader.substring(7);
+    }
+
+
+    public Boolean authenticateToken(String token) {
+        String username = jwtService.extractUsername(token);
+        if (username == null) {
+            return false;
+        } else {
+            UserDetails userDetails =  userDetailsManager.loadUserByUsername(username);
+            return jwtService.isToKenValid(token, userDetails);
+        }
+    }
+
+    public String extractUsernameFromToken(String token) {
+        if (authenticateToken(token)) {
+            return jwtService.extractUsername(token);
+        }
+        return null;
+    }
+
 }

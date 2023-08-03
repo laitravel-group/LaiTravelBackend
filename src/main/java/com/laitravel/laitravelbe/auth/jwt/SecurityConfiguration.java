@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -24,26 +25,21 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST,"/logout").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .csrf((AbstractHttpConfigurer::disable))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers(HttpMethod.POST,"/signup", "/login", "/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/trip-plan-build", "/trip-plan-build-update").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/places").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFiler, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT))
-                .invalidateHttpSession(true) // Invalidate any server-side session data (if any)
-                .clearAuthentication(true) // Clear authentication information
-                .deleteCookies("JSESSIONID") // Clear cookies if used
-                .permitAll(); // Allow unauthenticated access to logout URL
-        ;
+                .logout(logout -> logout
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT))
+                        .invalidateHttpSession(true) // Invalidate any server-side session data (if any)
+                        .clearAuthentication(true) // Clear authentication information
+                        .deleteCookies("JSESSIONID") // Clear cookies if used
+                );
 
         return http.build();
     }

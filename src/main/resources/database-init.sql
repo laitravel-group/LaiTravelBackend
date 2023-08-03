@@ -1,13 +1,14 @@
-# DROP TABLE IF EXISTS trip_plan;
-# DROP TABLE IF EXISTS place;
-# DROP TABLE IF EXISTS users;
-# DROP TABLE IF EXISTS city;
+DROP TABLE IF EXISTS trip_plan;
+DROP TABLE IF EXISTS place;
+DROP TABLE IF EXISTS authorities;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS city;
 
 
 CREATE TABLE IF NOT EXISTS users (
-                       username     VARCHAR(64) NOT NULL PRIMARY KEY,
+                       username     VARCHAR(255) NOT NULL PRIMARY KEY,
                        password     VARCHAR(255) NOT NULL,
-                       display_name VARCHAR(32),
+                       display_name VARCHAR(255),
                        avatar       TEXT,
                        enabled  TINYINT      NOT NULL DEFAULT 1
 );
@@ -19,7 +20,7 @@ CREATE TABLE IF NOT EXISTS city (
 
 CREATE TABLE IF NOT EXISTS trip_plan (
                       trip_id    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                      owner_id   VARCHAR(64) NOT NULL,
+                      owner_id   VARCHAR(255) NOT NULL,
                       city_id    VARCHAR(255) NOT NULL,
                       start_date TIMESTAMP NOT NULL,
                       end_date   TIMESTAMP NOT NULL,
@@ -30,7 +31,7 @@ CREATE TABLE IF NOT EXISTS trip_plan (
 
 CREATE TABLE IF NOT EXISTS place (
                        place_id             VARCHAR(255) NOT NULL PRIMARY KEY,
-                       place_name           VARCHAR(50),
+                       place_name           VARCHAR(255),
                        city_id              VARCHAR(255) NOT NULL,
                        lat                  DOUBLE,
                        lng                  DOUBLE,
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS place (
 CREATE TABLE IF NOT EXISTS authorities
 (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    username  VARCHAR(50) NOT NULL,
-    authority VARCHAR(50) NOT NULL,
+    username  VARCHAR(255) NOT NULL,
+    authority VARCHAR(255) NOT NULL,
     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
