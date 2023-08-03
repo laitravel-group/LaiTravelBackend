@@ -1,4 +1,5 @@
 package com.laitravel.laitravelbe.tripplan;
+import com.laitravel.laitravelbe.auth.AuthenticationService;
 import com.laitravel.laitravelbe.model.TripPlan;
 import com.laitravel.laitravelbe.model.TripPlanDetailsPerDay;
 import com.laitravel.laitravelbe.model.request.TripPlanBuildRequestBody;
@@ -6,6 +7,7 @@ import com.laitravel.laitravelbe.model.response.TripPlanBuildResponseBody;
 import com.laitravel.laitravelbe.model.response.TripPlanDetailsResponseBody;
 import com.laitravel.laitravelbe.model.response.TripPlanListResponseBody;
 import com.laitravel.laitravelbe.model.response.TripPlanUpdateResponseBody;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -13,9 +15,11 @@ import java.util.List;
 @RestController
 public class TripPlanController {
     final TripPlanService travelPlanService;
+    final AuthenticationService authenticationService;
 
-    public TripPlanController(TripPlanService travelPlanService) {
+    public TripPlanController(TripPlanService travelPlanService, AuthenticationService authenticationService) {
         this.travelPlanService = travelPlanService;
+        this.authenticationService = authenticationService;
     }
 
     @GetMapping("/trip-plans")
@@ -55,8 +59,13 @@ public class TripPlanController {
     }
 
     @PostMapping("/trip-plan-save")
-    public void saveTripPlan(@RequestParam(value="ownerId") String ownerId, @RequestBody TripPlan tripPlan) {
-        travelPlanService.saveTripPlan(ownerId, tripPlan);
+    public void saveTripPlan(HttpServletRequest request, @RequestBody TripPlan tripPlan) {
+        final String authHeader = request.getHeader("Authorization");
+        final String token = authenticationService.extractToken(authHeader);
+        final String ownerId = authenticationService.extractUsernameFromToken(token);
+        if (token != null) {
+            travelPlanService.saveTripPlan(ownerId, tripPlan);
+        }
     }
 
 

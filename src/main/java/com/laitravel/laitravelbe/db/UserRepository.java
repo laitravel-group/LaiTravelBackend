@@ -14,9 +14,10 @@ public interface UserRepository extends ListCrudRepository<UserEntity, String> {
 
     List<UserEntity> findByDisplayName(String displayName);
 
-    UserEntity findByUserId(String userId);
+    UserEntity findByUsername(String username);
+
 
     @Modifying
-    @Query("UPDATE user SET display_name = :displayName, avatar = :avatar WHERE user_id = :userId")
-    void updateNameByUserId(String userId, String displayName, String avatar);
+    @Query("UPDATE users SET display_name = :displayName, avatar = :avatar WHERE username = :username")
+    void updateNameByUserId(String username, String displayName, String avatar);
 }

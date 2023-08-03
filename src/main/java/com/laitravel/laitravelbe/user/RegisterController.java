@@ -1,5 +1,9 @@
 package com.laitravel.laitravelbe.user;
 
+import com.laitravel.laitravelbe.auth.AuthenticationRequest;
+import com.laitravel.laitravelbe.auth.AuthenticationResponse;
+import com.laitravel.laitravelbe.auth.AuthenticationService;
+import com.laitravel.laitravelbe.model.request.UserEditRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,24 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/register")
 public class RegisterController {
+    private final AuthenticationService authenticationService;
 
-    private final RegisterService registerService;
-
-    @Autowired
-    public RegisterController(RegisterService registerService) {
-        this.registerService = registerService;
+    public RegisterController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> registerUser(@RequestBody String userID, String password, String displayName) {
-        try {
-            registerService.registerUser(userID, password, displayName);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user.");
-        }
+    @PostMapping("/signup")
+    public AuthenticationResponse registerUser(@RequestBody UserEditRequestBody body) {
+        return authenticationService.register(body);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+
 }
 
