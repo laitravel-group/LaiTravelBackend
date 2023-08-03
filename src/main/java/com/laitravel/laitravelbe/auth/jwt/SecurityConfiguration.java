@@ -27,9 +27,12 @@ public class SecurityConfiguration {
         http
                 .csrf((AbstractHttpConfigurer::disable))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(HttpMethod.POST,"/signup", "/login", "/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/signup", "/login").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/signup", "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/trip-plan-build", "/trip-plan-build-update").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/trip-plan-build", "/trip-plan-build-update").permitAll()
                         .requestMatchers(HttpMethod.GET, "/places").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/places").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
