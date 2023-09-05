@@ -200,11 +200,37 @@ public class PlaceService {
             }
         } else {
             for (com.google.maps.model.OpeningHours.Period period : periods) {
-                openingHours.add(new OpeningHours(
-                        DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
-                        DateTimeUtils.localTimeToString(period.open.time),
-                        period.close != null ?
-                                DateTimeUtils.localTimeToString(period.close.time) : "18:00"));
+                if (period.close == null) {
+                    openingHours.add(new OpeningHours(
+                            DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
+                            DateTimeUtils.localTimeToString(period.open.time),
+                            "18:00"));
+
+                } else if (period.close.day.equals(period.open.day)) {
+                    openingHours.add(new OpeningHours(
+                            DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
+                            DateTimeUtils.localTimeToString(period.open.time),
+                            DateTimeUtils.localTimeToString(period.close.time)));
+                } else {
+                    OpeningHours startDayOpeningHours = new OpeningHours(
+                            DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
+                            DateTimeUtils.localTimeToString(period.open.time),
+                            "23:59");
+
+                    for (int dayOfWeek = (period.open.day.ordinal() + 1) % 7; dayOfWeek != (period.close.day.ordinal() + 1) % 7; dayOfWeek ++) {
+                        OpeningHours nextDayOpeningHours = dayOfWeek == period.close.day.ordinal() ?
+                                new OpeningHours(
+                                        DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
+                                        "00:00",
+                                        DateTimeUtils.localTimeToString(period.close.time)) :
+                                new OpeningHours(
+                                        DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
+                                        "00:00",
+                                        "23:59");
+                        openingHours.add(nextDayOpeningHours);
+                    }
+
+                }
             }
         }
         return openingHours;
