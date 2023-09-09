@@ -189,30 +189,22 @@ public class PlaceService {
     }
 
     private List<OpeningHours> parseOpeningPeriods(com.google.maps.model.OpeningHours.Period[] periods) {
-        List<com.laitravel.laitravelbe.model.OpeningHours> openingHours = new ArrayList<>();
+        List<OpeningHours> openingHours = new ArrayList<>();
         // if no period, default opening hours are 9am to 6pm everyday
         if (periods == null) {
-            for (int i = 1; i < 7; i++) {
-                openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
-                        DayOfWeek.of(i),
-                        "09:00",
-                        "18:00"));
-            }
+            addOpenEveryday(openingHours);
         } else {
             for (com.google.maps.model.OpeningHours.Period period : periods) {
                 if (period.close == null) {
-                    for (int i = 1; i < 7; i++) {
-                        openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
-                                DayOfWeek.of(i),
-                                "09:00",
-                                "18:00"));
-                    }
+                    addOpenEveryday(openingHours);
                 } else if (period.close.day.equals(period.open.day)) {
                     openingHours.add(new OpeningHours(
                             DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
                             DateTimeUtils.localTimeToString(period.open.time),
                             DateTimeUtils.localTimeToString(period.close.time)));
                 } else {
+                    // backup solution for a different display format seen in
+                    // Google Maps api call
                     OpeningHours startDayOpeningHours = new OpeningHours(
                             DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
                             DateTimeUtils.localTimeToString(period.open.time),
@@ -236,6 +228,17 @@ public class PlaceService {
         }
         return openingHours;
     }
+
+    private void addOpenEveryday(List<OpeningHours> openingHours) {
+        for (int i = 1; i < 7; i++) {
+            openingHours.add(new OpeningHours(
+                    DayOfWeek.of(i),
+                    "09:00",
+                    "18:00"));
+        }
+    }
+
+
 
 }
 
