@@ -201,11 +201,12 @@ public class PlaceService {
         } else {
             for (com.google.maps.model.OpeningHours.Period period : periods) {
                 if (period.close == null) {
-                    openingHours.add(new OpeningHours(
-                            DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
-                            DateTimeUtils.localTimeToString(period.open.time),
-                            "18:00"));
-
+                    for (int i = 1; i < 7; i++) {
+                        openingHours.add(new com.laitravel.laitravelbe.model.OpeningHours(
+                                DayOfWeek.of(i),
+                                "09:00",
+                                "18:00"));
+                    }
                 } else if (period.close.day.equals(period.open.day)) {
                     openingHours.add(new OpeningHours(
                             DayOfWeek.valueOf(period.open.day.getName().toUpperCase()),
